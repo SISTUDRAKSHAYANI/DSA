@@ -1,3 +1,19 @@
+/*
+ * Upper Bound
+ *
+ * Problem:
+ * Find the first index where the value is strictly greater than the target.
+ *
+ * Approach:
+ * - Use Binary Search.
+ * - If arr[mid] > target, store the answer and move left.
+ * - Otherwise, move right.
+ *
+ * Time Complexity: O(log n)
+ * Space Complexity: O(1)
+ *
+ * Topic: Binary Search
+ */
 class Solution {
     public int upperBound(int[] nums, int x) {
       int low=0,high=nums.length-1;
