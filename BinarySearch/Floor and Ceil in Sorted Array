@@ -1,0 +1,181 @@
+# Floor and Ceil in a Sorted Array
+
+## Problem
+
+Given a sorted array and a target value, find the **Floor** and **Ceil** of the target.
+
+- **Floor:** The largest element in the array that is less than or equal to the target.
+- **Ceil:** The smallest element in the array that is greater than or equal to the target.
+
+If the floor or ceil does not exist, return `-1`.
+
+### Example
+
+**Input:**
+
+`arr = [1, 2, 4, 6, 8, 10]`  
+`target = 5`
+
+**Output:**
+
+`Floor = 4`  
+`Ceil = 6`
+
+**Explanation:**
+
+- `4` is the largest element smaller than `5`, so it is the **Floor**.
+- `6` is the smallest element greater than `5`, so it is the **Ceil**.
+
+---
+
+## Approach
+
+Since the array is sorted, we can use **Binary Search** to efficiently find both the floor and ceil.
+
+We maintain:
+
+- `start` → beginning of the search range
+- `end` → end of the search range
+
+Calculate:
+
+`mid = start + (end - start) / 2`
+
+### Finding Floor
+
+If:
+
+`arr[mid] <= target`
+
+then `arr[mid]` can be a possible floor because it is less than or equal to the target.
+
+We store it as the current floor and search towards the **right** to find a larger valid value:
+
+`floor = arr[mid]`
+
+`start = mid + 1`
+
+If:
+
+`arr[mid] > target`
+
+then `arr[mid]` cannot be the floor, so we search towards the **left**:
+
+`end = mid - 1`
+
+---
+
+### Finding Ceil
+
+If:
+
+`arr[mid] >= target`
+
+then `arr[mid]` can be a possible ceil because it is greater than or equal to the target.
+
+We store it as the current ceil and search towards the **left** to find a smaller valid value:
+
+`ceil = arr[mid]`
+
+`end = mid - 1`
+
+If:
+
+`arr[mid] < target`
+
+then `arr[mid]` cannot be the ceil, so we search towards the **right**:
+
+`start = mid + 1`
+
+---
+
+## Example Walkthrough
+
+Consider:
+
+`arr = [1, 2, 4, 6, 8, 10]`
+
+`target = 5`
+
+The target `5` is not present.
+
+During Binary Search:
+
+- Values smaller than `5` are possible candidates for the **Floor**.
+- Values greater than `5` are possible candidates for the **Ceil**.
+
+The closest valid values are:
+
+`Floor = 4`
+
+`Ceil = 6`
+
+Therefore:
+
+`[4, 6]`
+
+---
+
+## Algorithm
+
+1. Initialize `start = 0` and `end = arr.length - 1`.
+2. Initialize `floor = -1` and `ceil = -1`.
+3. Perform Binary Search.
+4. If `arr[mid] <= target`, update `floor` and search the right half.
+5. If `arr[mid] >= target`, update `ceil` and search the left half.
+6. Continue until the search range becomes empty.
+7. Return the floor and ceil values.
+
+## Complexity
+
+- **Time Complexity:** `O(log n)`
+- **Space Complexity:** `O(1)`
+
+## Key Takeaway
+
+The important Binary Search pattern is:
+
+- For **Floor**, when `arr[mid] <= target`, move **right** to find a larger valid value.
+- For **Ceil**, when `arr[mid] >= target`, move **left** to find a smaller valid value.
+
+This problem is useful for understanding how Binary Search can be modified to find the **closest smaller and closest greater elements** instead of just finding an exact target.
+
+
+
+##Solution
+
+class Solution {
+    public int[] getFloorAndCeil(int[] nums, int x) {
+       int n=nums.length;
+       int[] ans = new int[2];
+       ans[0]=floor(nums,x,0,n-1);
+       ans[1]=ceil(nums,x,0,n-1);
+       return ans;
+    }
+    public static int floor(int[] nums,int x,int low,int high)
+    {
+     while(low<=high)
+       {
+        int mid=low+(high-low)/2;
+        if(nums[mid]<=x)
+           low=mid+1;
+        else
+           high=mid-1;
+       }
+       return nums[high];
+
+    }
+
+    public static int ceil(int[] nums,int x,int low,int high)
+    {
+       while(low<=high)
+       {
+        int mid=low+(high-low)/2;
+        if(nums[mid]>=x)
+           high=mid-1;
+        else
+           low=mid+1;
+       }
+       return nums[low];
+    }
+}
