@@ -9,5 +9,6 @@ This folder contains all Binary Search problems that I solved on LeetCode.
 | 3 | Upper Bound  |  -  |https://takeuforward.org/plus/dsa/problems/upper-bound?source=strivers-a2z-dsa-track | Upper Bound |
 | 4 | Search Insert Position | Easy | https://leetcode.com/problems/search-insert-position/ | LC_35-Search Insert Position |
 | 5 | Floor and Ceil in Sorted Array | - | https://takeuforward.org/plus/dsa/problems/floor-and-ceil-in-sorted-array?source=strivers-a2z-dsa-track | Floor and Ceil in Sorted Array |
-| 6 | Count Occurrences in a Sorted Array | - | - | Count Occurrences in a Sorted Array |
-| 7 | Search in Rotated Sorted Array 1 | Medium | https://leetcode.com/problems/search-in-rotated-sorted-array/ | LC_33-Search in Rotated Sorted Array 1 |
+| 6 | Count Occurrences in a Sorted Array | https://takeuforward.org/plus/dsa/problems/count-occurrences-in-a-sorted-array?source=strivers-a2z-dsa-track | - | Count Occurrences in a Sorted Array |
+| 7 | Search in Rotated Sorted Array  | Medium | https://leetcode.com/problems/search-in-rotated-sorted-array/ | LC_33-Search in Rotated Sorted Array 1 |
+| 8 | Search in Rotated Sorted Array II | Medium | https://leetcode.com/problems/search-in-rotated-sorted-array-ii/ | LC_81-Search in Rotated Sorted Array II |
