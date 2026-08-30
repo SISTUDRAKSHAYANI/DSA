@@ -1,0 +1,260 @@
+# Find Minimum in Rotated Sorted Array
+
+## Problem
+
+Given a sorted array that has been rotated at an unknown position, find the **minimum element** in the array.
+
+The array contains **distinct integers**.
+
+### Example 1
+
+**Input:**
+
+`nums = [3, 4, 5, 1, 2]`
+
+**Output:**
+
+`1`
+
+**Explanation:**
+
+The original sorted array was `[1, 2, 3, 4, 5]`.  
+After rotation, it became `[3, 4, 5, 1, 2]`.
+
+The minimum element is `1`.
+
+### Example 2
+
+**Input:**
+
+`nums = [4, 5, 6, 7, 0, 1, 2]`
+
+**Output:**
+
+`0`
+
+---
+
+## Approach
+
+Since the array is sorted and then rotated, we can use **Binary Search** to find the minimum element efficiently.
+
+We maintain two pointers:
+
+- `start` → beginning of the search range
+- `end` → end of the search range
+
+Calculate:
+
+`mid = start + (end - start) / 2`
+
+The main idea is to determine which side of the array contains the minimum element.
+
+---
+
+## Case 1: Array is Already Sorted
+
+If:
+
+`nums[start] <= nums[end]`
+
+then the current portion of the array is already sorted.
+
+Therefore, `nums[start]` is the minimum element in this range.
+
+We can return:
+
+`nums[start]`
+
+### Example
+
+`nums = [1, 2, 3, 4, 5]`
+
+Since:
+
+`1 <= 5`
+
+the array is already sorted, so the minimum is `1`.
+
+---
+
+## Case 2: Middle Element is Greater Than the End Element
+
+If:
+
+`nums[mid] > nums[end]`
+
+then the minimum element must be present in the **right half**.
+
+Why?
+
+Because `nums[mid]` is greater than `nums[end]`, which means the rotation point is somewhere after `mid`.
+
+So we eliminate the left half:
+
+`start = mid + 1`
+
+### Example
+
+`nums = [4, 5, 6, 7, 0, 1, 2]`
+
+If `mid` points to `7`:
+
+`7 > 2`
+
+Therefore, the minimum must be to the right of `mid`.
+
+---
+
+## Case 3: Middle Element is Less Than or Equal to the End Element
+
+If:
+
+`nums[mid] <= nums[end]`
+
+then the minimum could be at `mid` or somewhere to its left.
+
+So we keep `mid` in the search range:
+
+`end = mid`
+
+We do **not** use `end = mid - 1` because `mid` itself could be the minimum.
+
+---
+
+## Example Walkthrough
+
+Consider:
+
+`nums = [4, 5, 6, 7, 0, 1, 2]`
+
+### Step 1
+
+`start = 0`  
+`end = 6`
+
+`mid = 3`
+
+`nums[mid] = 7`
+
+Since:
+
+`7 > 2`
+
+the minimum is in the right half.
+
+So:
+
+`start = mid + 1`
+
+`start = 4`
+
+---
+
+### Step 2
+
+`start = 4`  
+`end = 6`
+
+`mid = 5`
+
+`nums[mid] = 1`
+
+Since:
+
+`1 <= 2`
+
+the minimum could be at `mid` or to its left.
+
+So:
+
+`end = mid`
+
+`end = 5`
+
+---
+
+### Step 3
+
+`start = 4`  
+`end = 5`
+
+`mid = 4`
+
+`nums[mid] = 0`
+
+Since:
+
+`0 <= 1`
+
+we continue searching towards the left:
+
+`end = mid`
+
+`end = 4`
+
+Now:
+
+`start == end`
+
+Therefore:
+
+`nums[start] = 0`
+
+is the minimum element.
+
+---
+
+## Algorithm
+
+1. Initialize `start = 0` and `end = nums.length - 1`.
+2. While `start < end`:
+   - Calculate `mid`.
+   - If `nums[start] <= nums[end]`, the current range is sorted, so return `nums[start]`.
+   - If `nums[mid] > nums[end]`, search the right half using `start = mid + 1`.
+   - Otherwise, search the left half including `mid` using `end = mid`.
+3. When `start == end`, return `nums[start]`.
+
+## Complexity
+
+- **Time Complexity:** `O(log n)`
+- **Space Complexity:** `O(1)`
+
+## Key Takeaway
+
+The most important comparison is:
+
+`nums[mid] > nums[end]`
+
+- If **true** → minimum is in the **right half**.
+- Otherwise → minimum is in the **left half or at `mid`**.
+
+The important point is to use:
+
+`end = mid`
+
+instead of:
+
+`end = mid - 1`
+
+because `mid` itself can be the minimum element.
+
+This problem is an important application of **Binary Search on a rotated sorted array**.
+
+##Solution
+
+class Solution {
+    public int findMin(int[] nums) {
+        int low=0,high=nums.length-1;
+        while(low<high)
+        {
+            int mid=low+(high-low)/2;
+            if(nums[mid]>nums[high])
+                low=mid+1;
+            else
+                high=mid;
+        }
+        return nums[low];
+    }
+}
+
