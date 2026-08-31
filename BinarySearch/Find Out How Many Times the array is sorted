@@ -1,0 +1,265 @@
+# Find Out How Many Times an Array Is Rotated
+
+## Problem
+
+Given a sorted array that has been rotated one or more times, find the **number of times the array has been rotated**.
+
+The array contains **distinct elements**.
+
+### Example 1
+
+**Input:**
+
+`nums = [4, 5, 6, 7, 0, 1, 2]`
+
+**Output:**
+
+`4`
+
+**Explanation:**
+
+The original sorted array was:
+
+`[0, 1, 2, 4, 5, 6, 7]`
+
+After rotating it 4 times:
+
+`[4, 5, 6, 7, 0, 1, 2]`
+
+The minimum element `0` is present at index `4`.
+
+Therefore, the array has been rotated **4 times**.
+
+### Example 2
+
+**Input:**
+
+`nums = [3, 4, 5, 1, 2]`
+
+**Output:**
+
+`3`
+
+**Explanation:**
+
+The minimum element `1` is at index `3`.
+
+Therefore, the array has been rotated **3 times**.
+
+---
+
+## Important Observation
+
+For a rotated sorted array, the **index of the minimum element represents the number of rotations**.
+
+For example:
+
+`[4, 5, 6, 7, 0, 1, 2]`
+
+The minimum element is:
+
+`0`
+
+Its index is:
+
+`4`
+
+Therefore:
+
+`Number of Rotations = 4`
+
+So, instead of directly counting rotations, we only need to find the **index of the minimum element**.
+
+---
+
+## Approach
+
+We can find the minimum element using a modified **Binary Search**.
+
+We maintain:
+
+- `start` → beginning of the search range
+- `end` → end of the search range
+- `ans` → index of the minimum element
+
+At every step, calculate:
+
+`mid = start + (end - start) / 2`
+
+### Case 1: Current Array Is Sorted
+
+If:
+
+`nums[start] <= nums[end]`
+
+then the current range is already sorted.
+
+Therefore, `nums[start]` is the minimum element.
+
+Update the answer if necessary and stop searching this range.
+
+---
+
+### Case 2: Middle Element Is Greater Than the End Element
+
+If:
+
+`nums[mid] > nums[end]`
+
+then the minimum element must be in the **right half**.
+
+So:
+
+`start = mid + 1`
+
+---
+
+### Case 3: Middle Element Is Less Than or Equal to the End Element
+
+If:
+
+`nums[mid] <= nums[end]`
+
+then the minimum element lies in the **left half or at `mid`**.
+
+Store `mid` as a possible minimum and search the left side:
+
+`ans = mid`
+
+`end = mid - 1`
+
+---
+
+## Example Walkthrough
+
+Consider:
+
+`nums = [4, 5, 6, 7, 0, 1, 2]`
+
+### Step 1
+
+`start = 0`  
+`end = 6`
+
+`mid = 3`
+
+`nums[mid] = 7`
+
+Since:
+
+`7 > 2`
+
+the minimum is in the right half.
+
+So:
+
+`start = mid + 1`
+
+`start = 4`
+
+---
+
+### Step 2
+
+`start = 4`  
+`end = 6`
+
+`mid = 5`
+
+`nums[mid] = 1`
+
+Since:
+
+`1 <= 2`
+
+`mid` can be the minimum, so store:
+
+`ans = 5`
+
+Then search the left half:
+
+`end = mid - 1`
+
+`end = 4`
+
+---
+
+### Step 3
+
+`start = 4`  
+`end = 4`
+
+The minimum is at index `4`.
+
+Therefore:
+
+`ans = 4`
+
+So the number of rotations is:
+
+`4`
+
+---
+
+## Algorithm
+
+1. Initialize `start = 0`, `end = nums.length - 1`.
+2. Initialize `ans = 0`.
+3. Use Binary Search to find the index of the minimum element.
+4. If the current range is already sorted, the minimum is at `start`.
+5. If `nums[mid] > nums[end]`, search the right half.
+6. Otherwise, store `mid` as a possible minimum and search the left half.
+7. Return the index of the minimum element.
+8. This index is the number of rotations.
+
+## Complexity
+
+- **Time Complexity:** `O(log n)`
+- **Space Complexity:** `O(1)`
+
+## Key Takeaway
+
+For a sorted array rotated to the right:
+
+**Number of Rotations = Index of the Minimum Element**
+
+For example:
+
+`[4, 5, 6, 7, 0, 1, 2]`
+
+Minimum element = `0`
+
+Index of minimum = `4`
+
+Therefore:
+
+**Number of rotations = 4**
+
+This problem uses the same Binary Search concept as **Find Minimum in Rotated Sorted Array**, but instead of returning the minimum value, we return its **index**.
+
+
+##Solution
+
+class Solution {
+    public int findKRotation(ArrayList<Integer> nums) {
+     int low = 0;
+        int high = nums.size() - 1;
+
+        // Loop until low meets high
+        while (low < high) {
+            int mid = low + (high - low) / 2;
+
+            // If mid element is greater than element at high,
+            // smallest element lies to the right of mid
+            if (nums.get(mid) > nums.get(high)) {
+                low = mid + 1;
+            } else {
+                // Else smallest element is at mid or to the left
+                high = mid;
+            }
+        }
+
+        // When low == high, we found the smallest element
+        return low;
+    }
+}
