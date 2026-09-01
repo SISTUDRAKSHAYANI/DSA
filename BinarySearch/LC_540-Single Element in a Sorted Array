@@ -1,0 +1,266 @@
+# Single Element in a Sorted Array
+
+## Problem
+
+You are given a sorted array where every element appears exactly **twice**, except for one element that appears only **once**.
+
+Find and return the element that appears only once.
+
+The solution should run in **O(log n)** time.
+
+### Example 1
+
+**Input:**
+
+`nums = [1, 1, 2, 2, 3, 3, 4]`
+
+**Output:**
+
+`4`
+
+**Explanation:**
+
+Every element appears twice except `4`, which appears only once.
+
+### Example 2
+
+**Input:**
+
+`nums = [1, 1, 2, 3, 3, 4, 4]`
+
+**Output:**
+
+`2`
+
+**Explanation:**
+
+`2` is the only element that appears once.
+
+---
+
+## Important Observation
+
+Because the array is sorted, duplicate elements appear next to each other.
+
+Before the single element:
+
+- The first occurrence of every pair is at an **even index**.
+- The second occurrence is at an **odd index**.
+
+For example:
+
+`[1, 1, 2, 2, 3, 3, 4]`
+
+Indexes:
+
+` 0  1  2  3  4  5  6`
+
+Pairs follow the pattern:
+
+`(0,1), (2,3), (4,5)`
+
+After the single element, this pattern gets disturbed.
+
+We can use this property to perform Binary Search.
+
+---
+
+## Approach
+
+We use two pointers:
+
+- `start` → beginning of the search range
+- `end` → end of the search range
+
+We calculate:
+
+`mid = start + (end - start) / 2`
+
+To make `mid` an **even index**, we adjust it if necessary:
+
+`if (mid % 2 == 1) mid--`
+
+Now `mid` is always even.
+
+We compare:
+
+`nums[mid]` with `nums[mid + 1]`
+
+### Case 1: Pair Is Correct
+
+If:
+
+`nums[mid] == nums[mid + 1]`
+
+then the pair is correctly placed.
+
+This means the single element must be **after this pair**.
+
+So:
+
+`start = mid + 2`
+
+---
+
+### Case 2: Pair Is Broken
+
+If:
+
+`nums[mid] != nums[mid + 1]`
+
+then the single element is either at `mid` or somewhere **before it**.
+
+So:
+
+`end = mid`
+
+We keep `mid` because it could itself be the single element.
+
+---
+
+## Example Walkthrough
+
+Consider:
+
+`nums = [1, 1, 2, 2, 3, 4, 4]`
+
+The single element is `3`.
+
+### Step 1
+
+`start = 0`  
+`end = 6`
+
+`mid = 3`
+
+Since `mid` is odd, make it even:
+
+`mid = 2`
+
+Now:
+
+`nums[2] = 2`
+
+`nums[3] = 2`
+
+The pair is correct.
+
+So the single element must be after this pair:
+
+`start = mid + 2`
+
+`start = 4`
+
+---
+
+### Step 2
+
+`start = 4`  
+`end = 6`
+
+`mid = 5`
+
+Make `mid` even:
+
+`mid = 4`
+
+Now:
+
+`nums[4] = 3`
+
+`nums[5] = 4`
+
+They are different.
+
+Therefore, the single element is at `mid` or before it.
+
+So:
+
+`end = mid`
+
+`end = 4`
+
+---
+
+### Step 3
+
+Now:
+
+`start = 4`
+
+`end = 4`
+
+Therefore:
+
+`nums[start] = 3`
+
+So the answer is:
+
+`3`
+
+---
+
+## Algorithm
+
+1. Initialize `start = 0` and `end = nums.length - 1`.
+2. While `start < end`:
+   - Calculate `mid`.
+   - If `mid` is odd, decrement it by `1`.
+   - Compare `nums[mid]` and `nums[mid + 1]`.
+3. If they are equal:
+   - The pair is correctly placed.
+   - Move to the right half: `start = mid + 2`.
+4. Otherwise:
+   - The single element is at `mid` or to the left.
+   - Move to the left half: `end = mid`.
+5. When `start == end`, return `nums[start]`.
+
+## Complexity
+
+- **Time Complexity:** `O(log n)`
+- **Space Complexity:** `O(1)`
+
+## Key Takeaway
+
+The most important pattern is based on **even and odd indexes**.
+
+Before the single element:
+
+`even index → odd index`
+
+After the single element:
+
+`odd index → even index`
+
+By checking whether:
+
+`nums[mid] == nums[mid + 1]`
+
+we can determine which half contains the single element.
+
+##Solution
+
+class Solution {
+    public int singleNonDuplicate(int[] nums) {
+        int n=nums.length;
+        if(n==1) return nums[0];
+        if(nums[0]!=nums[1]) return nums[0];
+        if(nums[n-1]!=nums[n-2]) return nums[n-1];
+        int low=1,high=n-2;
+        while(low<=high)
+        {
+            int mid = low+(high-low)/2;
+            if(nums[mid]!=nums[mid-1] && nums[mid]!=nums[mid+1])
+               return nums[mid];
+            //element is in right half so eliminate left half
+            if(((mid%2==1) && nums[mid]==nums[mid-1]) || ((mid%2==0) && nums[mid]==nums[mid+1]))
+              low=mid+1;
+            //element is in left half so eliminate right half
+            else
+            high=mid-1;
+        }
+        return -1;
+    }
+}
+
+This allows us to find the unique element using **Binary Search in O(log n)** instead of checking every element.
