@@ -1,0 +1,273 @@
+# Find Peak Element
+
+## Problem
+
+Given an array of integers, find a **peak element** and return its index.
+
+A peak element is an element that is **strictly greater than its neighboring elements**.
+
+For elements at the boundaries, we consider the element outside the array to be negative infinity.
+
+There may be more than one peak. We can return the index of **any one peak**.
+
+### Example 1
+
+**Input:**
+
+`nums = [1, 2, 3, 1]`
+
+**Output:**
+
+`2`
+
+**Explanation:**
+
+`nums[2] = 3`
+
+It is greater than both of its neighbors:
+
+`3 > 2` and `3 > 1`
+
+Therefore, index `2` is a peak.
+
+### Example 2
+
+**Input:**
+
+`nums = [1, 2, 1, 3, 5, 6, 4]`
+
+**Output:**
+
+`5`
+
+**Explanation:**
+
+`nums[5] = 6`
+
+Since:
+
+`6 > 5` and `6 > 4`
+
+index `5` is a valid peak.
+
+---
+
+## Important Observation
+
+We don't need to check every element.
+
+The key idea is to compare the middle element with the element immediately to its right:
+
+`nums[mid]` and `nums[mid + 1]`
+
+There are two possibilities.
+
+### Case 1: Increasing Slope
+
+If:
+
+`nums[mid] < nums[mid + 1]`
+
+then we are on an **increasing slope**.
+
+This means a peak must exist somewhere to the **right** of `mid`.
+
+So:
+
+`start = mid + 1`
+
+Why?
+
+Because the array is still increasing at `mid`, so `mid` cannot be a peak. Moving right gives us a chance to reach a peak.
+
+---
+
+### Case 2: Decreasing Slope
+
+If:
+
+`nums[mid] > nums[mid + 1]`
+
+then we are on a **decreasing slope**.
+
+A peak must exist at `mid` or somewhere to its **left**.
+
+So:
+
+`end = mid`
+
+We keep `mid` because `mid` itself could be a peak.
+
+---
+
+## Why Does This Work?
+
+Imagine walking through the array.
+
+If the values are increasing:
+
+`1 → 2 → 3 → 5`
+
+we know that somewhere ahead we must either:
+
+- reach a peak, or
+- reach the boundary, which itself can act as a peak.
+
+Similarly, if the values are decreasing:
+
+`5 → 4 → 2 → 1`
+
+then the peak must be at the current position or somewhere to the left.
+
+Therefore, every comparison allows us to eliminate half of the array.
+
+This is why Binary Search works even though the entire array is **not necessarily sorted**.
+
+---
+
+## Example Walkthrough
+
+Consider:
+
+`nums = [1, 2, 3, 1]`
+
+### Step 1
+
+`start = 0`
+
+`end = 3`
+
+`mid = 1`
+
+Compare:
+
+`nums[1] = 2`
+
+`nums[2] = 3`
+
+Since:
+
+`2 < 3`
+
+we are on an increasing slope.
+
+Therefore, the peak must be on the right:
+
+`start = mid + 1`
+
+`start = 2`
+
+---
+
+### Step 2
+
+`start = 2`
+
+`end = 3`
+
+`mid = 2`
+
+Compare:
+
+`nums[2] = 3`
+
+`nums[3] = 1`
+
+Since:
+
+`3 > 1`
+
+we are on a decreasing slope.
+
+Therefore, the peak is at `mid` or to its left:
+
+`end = mid`
+
+`end = 2`
+
+---
+
+### Step 3
+
+Now:
+
+`start == end == 2`
+
+Therefore:
+
+`nums[2] = 3`
+
+is a peak.
+
+Return:
+
+`2`
+
+---
+
+## Algorithm
+
+1. Initialize `start = 0` and `end = nums.length - 1`.
+2. While `start < end`:
+   - Calculate `mid`.
+   - Compare `nums[mid]` with `nums[mid + 1]`.
+3. If `nums[mid] < nums[mid + 1]`:
+   - We are on an increasing slope.
+   - Search the right half:
+   - `start = mid + 1`
+4. Otherwise:
+   - We are on a decreasing slope.
+   - Search the left half including `mid`:
+   - `end = mid`
+5. When `start == end`, that index is a peak.
+6. Return `start`.
+
+## Complexity
+
+- **Time Complexity:** `O(log n)`
+- **Space Complexity:** `O(1)`
+
+## Key Takeaway
+
+The important Binary Search pattern is:
+
+`nums[mid] < nums[mid + 1]`
+
+→ **Increasing slope** → move **right**
+
+`nums[mid] > nums[mid + 1]`
+
+→ **Decreasing slope** → move **left**, keeping `mid`
+
+When:
+
+`start == end`
+
+we have found a peak element.
+
+### Pattern
+
+**Compare `mid` with `mid + 1` → identify the slope → move toward the peak.**
+
+Unlike normal Binary Search, we are not searching for a particular value. We are using the **direction of the slope** to decide which half contains a peak.
+
+
+##Solution
+
+class Solution {
+    public int findPeakElement(int[] nums) {
+       int low=0,high=nums.length-1;
+       while(low<high)
+       {
+        int mid=low+(high-low)/2;
+        if(nums[mid]>nums[mid+1])
+         high=mid;
+        else
+        low=mid+1;
+       }
+       return low;
+    }
+}
+
+
+
