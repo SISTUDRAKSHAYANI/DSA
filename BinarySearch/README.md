@@ -15,3 +15,4 @@ This folder contains all Binary Search problems that I solved on LeetCode.
 | 9 | Find Minimum in Rotated Sorted Array | Medium | https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/ | LC_153-Find Minimum in Rotated Sorted Array |
 | 10 | Find out how many times the array is rotated | - | https://takeuforward.org/plus/dsa/problems/find-out-how-many-times-the-array-is-rotated?source=strivers-a2z-dsa-track | Find Out How Many times the array is rotated |
 | 11 | Single Element in a Sorted Array | Medium | https://leetcode.com/problems/single-element-in-a-sorted-array/ | LC_540-Single Element in a Sorted Array |
+| 12 | Find Peak Element | Medium | https://leetcode.com/problems/find-peak-element/ | LC_162-Find Peak Element |
