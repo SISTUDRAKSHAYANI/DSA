@@ -16,3 +16,4 @@ This folder contains all Binary Search problems that I solved on LeetCode.
 | 10 | Find out how many times the array is rotated | - | https://takeuforward.org/plus/dsa/problems/find-out-how-many-times-the-array-is-rotated?source=strivers-a2z-dsa-track | Find Out How Many times the array is rotated |
 | 11 | Single Element in a Sorted Array | Medium | https://leetcode.com/problems/single-element-in-a-sorted-array/ | LC_540-Single Element in a Sorted Array |
 | 12 | Find Peak Element | Medium | https://leetcode.com/problems/find-peak-element/ | LC_162-Find Peak Element |
+| 13 | Find First and Last Position of Element in Sorted Array | Medium | https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/ | LC_34-Find First and Last Position of Element in Sorted Array
