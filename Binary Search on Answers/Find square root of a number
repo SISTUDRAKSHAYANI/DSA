@@ -1,0 +1,312 @@
+# Find Square Root of a Number
+
+## Problem
+
+Given a non-negative integer `n`, find the **integer square root** of `n`.
+
+The integer square root is the largest integer `x` such that:
+
+`x * x <= n`
+
+If `n` is not a perfect square, return only the integer part of its square root.
+
+### Example 1
+
+**Input:**
+
+`n = 25`
+
+**Output:**
+
+`5`
+
+**Explanation:**
+
+`5 * 5 = 25`
+
+Therefore, the square root of `25` is `5`.
+
+### Example 2
+
+**Input:**
+
+`n = 28`
+
+**Output:**
+
+`5`
+
+**Explanation:**
+
+`5 * 5 = 25` which is less than `28`.
+
+But:
+
+`6 * 6 = 36` which is greater than `28`.
+
+Therefore, the integer square root is `5`.
+
+---
+
+## Approach
+
+Instead of checking every number from `1` to `n`, we can use **Binary Search**.
+
+For a number `n`, the square root can never be greater than `n`.
+
+So our search space is:
+
+`1` to `n`
+
+We maintain:
+
+- `start` → beginning of the search range
+- `end` → end of the search range
+- `ans` → stores the best possible square root found so far
+
+Calculate:
+
+`mid = start + (end - start) / 2`
+
+Then check:
+
+`mid * mid`
+
+---
+
+## Case 1: `mid * mid == n`
+
+If:
+
+`mid * mid == n`
+
+then `mid` is the exact square root.
+
+Return `mid`.
+
+### Example
+
+`n = 36`
+
+If:
+
+`mid = 6`
+
+then:
+
+`6 * 6 = 36`
+
+Therefore, return `6`.
+
+---
+
+## Case 2: `mid * mid < n`
+
+If:
+
+`mid * mid < n`
+
+then `mid` can be a possible answer.
+
+However, there might be a larger number whose square is still less than or equal to `n`.
+
+So store:
+
+`ans = mid`
+
+and search the right half:
+
+`start = mid + 1`
+
+### Example
+
+`n = 28`
+
+If:
+
+`mid = 5`
+
+then:
+
+`5 * 5 = 25 < 28`
+
+So `5` is a possible answer.
+
+We search for a larger value.
+
+---
+
+## Case 3: `mid * mid > n`
+
+If:
+
+`mid * mid > n`
+
+then `mid` is too large.
+
+So we search the left half:
+
+`end = mid - 1`
+
+---
+
+## Example Walkthrough
+
+Consider:
+
+`n = 28`
+
+### Step 1
+
+Search range:
+
+`start = 1`  
+`end = 28`
+
+Suppose:
+
+`mid = 14`
+
+`14 * 14 = 196`
+
+Since:
+
+`196 > 28`
+
+`14` is too large.
+
+So:
+
+`end = mid - 1`
+
+---
+
+### Step 2
+
+The search range becomes smaller.
+
+Eventually, we reach:
+
+`mid = 5`
+
+Now:
+
+`5 * 5 = 25`
+
+Since:
+
+`25 < 28`
+
+store:
+
+`ans = 5`
+
+and search for a larger value.
+
+---
+
+### Step 3
+
+Next possible value:
+
+`6`
+
+`6 * 6 = 36`
+
+Since:
+
+`36 > 28`
+
+`6` is too large.
+
+So we move left.
+
+The search ends with:
+
+`ans = 5`
+
+Therefore:
+
+`√28 = 5` (integer part)
+
+---
+
+## Algorithm
+
+1. If `n == 0` or `n == 1`, return `n`.
+2. Initialize `start = 1`, `end = n`.
+3. Initialize `ans = 0`.
+4. While `start <= end`:
+   - Calculate `mid`.
+   - If `mid * mid == n`, return `mid`.
+   - If `mid * mid < n`:
+     - Store `mid` as the possible answer.
+     - Search the right half.
+   - Otherwise:
+     - Search the left half.
+5. Return `ans`.
+
+## Important Point
+
+When calculating:
+
+`mid * mid`
+
+there can be an **integer overflow** for large values of `n`.
+
+A safer comparison is:
+
+`mid <= n / mid`
+
+instead of:
+
+`mid * mid <= n`
+
+This avoids multiplying two potentially large numbers.
+
+## Complexity
+
+- **Time Complexity:** `O(log n)`
+- **Space Complexity:** `O(1)`
+
+## Key Takeaway
+
+The main Binary Search idea is:
+
+- `mid * mid == n` → exact square root found.
+- `mid * mid < n` → `mid` is a possible answer, move **right**.
+- `mid * mid > n` → `mid` is too large, move **left**.
+
+For non-perfect squares, the answer is the **largest `mid` whose square is less than or equal to `n`**.
+
+This is another example of using Binary Search to find the **largest valid value** rather than simply searching for an exact element.
+
+
+
+##Solution
+
+class Solution {
+    public int floorSqrt(int n) {
+       if(n<2) return n;
+       int low=1;
+       int high=n/2;
+       int ans=0;
+       while(low<=high)
+       {
+        long mid = low+(high-low)/2;
+        if((mid)*(mid)<=n)
+        {
+            ans=(int) mid;
+            low=(int)mid+1;
+        }
+        else
+        {
+           high=(int)mid-1;
+        }
+       }
+       return ans;
+    }
+}
+
+
+
