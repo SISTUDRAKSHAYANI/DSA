@@ -1,0 +1,62 @@
+## Find Nth Root of a Number
+
+Given two integers `n` and `m`, find the integer `x` such that:
+
+`x^n = m`
+
+If there is no integer `x` whose `n`th power is equal to `m`, return `-1`.
+
+### Example
+
+**Input:**  
+`n = 3, m = 27`
+
+**Output:**  
+`3`
+
+**Explanation:**  
+`3^3 = 27`
+
+### Another Example
+
+**Input:**  
+`n = 4, m = 69`
+
+**Output:**  
+`-1`
+
+**Explanation:**  
+There is no integer `x` such that `x^4 = 69`.
+
+##Solution
+
+class Solution {
+    public int NthRoot(int N, int M) {
+        // Base case
+        if (M == 1) return 1;
+        
+        int low = 1, high = M;
+        
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            
+            // Function to calculate mid^N
+            long ans = 1;
+            for (int i = 0; i < N; i++) {
+                ans *= mid;
+                // If ans exceeds M, there's no need to continue the inner loop
+                if (ans > M) break; 
+            }
+            
+            if (ans == M) {
+                return mid;
+            } else if (ans < M) {
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+        return -1;
+    }
+}
+
