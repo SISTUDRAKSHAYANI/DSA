@@ -1,0 +1,73 @@
+## Koko Eating Bananas
+
+Koko loves eating bananas. There are `n` piles of bananas, where the `i-th` pile has `piles[i]` bananas.
+
+The guards will return after `h` hours.
+
+Koko can decide her eating speed `k` (bananas per hour). Each hour, she chooses one pile and eats up to `k` bananas from that pile. If the pile contains fewer than `k` bananas, she eats all of them and does not eat from another pile during that hour.
+
+Find the minimum integer eating speed `k` such that Koko can finish all the bananas within `h` hours.
+
+### Example 1
+
+**Input:**
+
+`piles = [3, 6, 7, 11]`
+
+`h = 8`
+
+**Output:**
+
+`4`
+
+**Explanation:**
+
+At speed `4` bananas per hour:
+
+- Pile `3` → `1` hour
+- Pile `6` → `2` hours
+- Pile `7` → `2` hours
+- Pile `11` → `3` hours
+
+Total hours = `1 + 2 + 2 + 3 = 8`
+
+Therefore, the minimum eating speed is `4`.
+
+### Example 2
+
+**Input:**
+
+`piles = [30, 11, 23, 4, 20]`
+
+`h = 5`
+
+**Output:**
+
+`30`
+
+
+##Solution
+
+class Solution {
+    public int minEatingSpeed(int[] piles, int h) {
+      int low=1;
+      int high=Integer.MIN_VALUE; 
+      for(int i=0;i<piles.length;i++)
+      {
+        high=Math.max(piles[i],high);
+      }     
+      while(low<=high)
+      {
+        int mid=low+(high-low)/2;
+        int total=0;
+        for(int pile:piles)
+        {
+            total+=(pile+mid-1)/mid;//ceiling--round up to next integer
+            if (total > h) break; 
+        }
+        if(total<=h) high=mid-1;
+        else low=mid+1;
+      }
+      return low;
+    }
+}
