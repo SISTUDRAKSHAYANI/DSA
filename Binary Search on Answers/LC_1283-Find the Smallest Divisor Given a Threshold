@@ -1,0 +1,74 @@
+## 1283. Find the Smallest Divisor Given a Threshold
+
+Given an integer array `nums` and an integer `threshold`, choose a positive integer `divisor`.
+
+Divide every element of `nums` by the divisor and add all the results. Each division result is rounded **up** to the nearest integer.
+
+Find the **smallest divisor** such that the sum of all the division results is less than or equal to `threshold`. The problem guarantees that an answer exists. :contentReference[oaicite:0]{index=0}
+
+### Example 1
+
+**Input:**
+
+`nums = [1,2,5,9]`  
+`threshold = 6`
+
+**Output:**
+
+`5`
+
+**Explanation:**
+
+For divisor `5`:
+
+`ceil(1/5) + ceil(2/5) + ceil(5/5) + ceil(9/5)`
+
+`= 1 + 1 + 1 + 2 = 5`
+
+Since `5 <= 6`, divisor `5` is valid.
+
+Divisor `4` gives:
+
+`1 + 1 + 2 + 3 = 7`
+
+which is greater than the threshold.
+
+Therefore, the smallest valid divisor is `5`. :contentReference[oaicite:1]{index=1}
+
+### Example 2
+
+**Input:**
+
+`nums = [44,22,33,11,1]`  
+`threshold = 5`
+
+**Output:**
+
+`44`
+
+##Solution
+
+
+class Solution {
+    public int smallestDivisor(int[] nums, int threshold) {
+        int low=1;
+        int high=Integer.MIN_VALUE;
+        for(int i:nums)
+        {
+            high=Math.max(i,high);
+        }
+        while(low<=high)
+        {
+            int mid=low+(high-low)/2;
+            int total=0;
+            for(int i=0;i<nums.length;i++)
+            {
+                total+=(nums[i]+mid-1)/mid;
+                if(total>threshold) break;
+            }
+            if(total<=threshold) high=mid-1;
+            else low=mid+1;
+        }
+        return low;
+    }
+}
