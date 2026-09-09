@@ -1,0 +1,89 @@
+## Capacity to Ship Packages Within D Days
+
+You are given an array `weights`, where `weights[i]` represents the weight of the `i-th` package.
+
+The packages must be shipped in the given order. You have `days` days to ship all the packages.
+
+Each day, you can load a number of packages onto the ship, but the total weight of the packages shipped on that day cannot exceed the ship's capacity.
+
+Find the **minimum ship capacity** required to ship all the packages within `days` days.
+
+### Example 1
+
+**Input:**
+
+`weights = [1,2,3,4,5,6,7,8,9,10]`  
+`days = 5`
+
+**Output:**
+
+`15`
+
+**Explanation:**
+
+With a ship capacity of `15`, the packages can be shipped as:
+
+- Day 1 → `1 + 2 + 3 + 4 + 5 = 15`
+- Day 2 → `6 + 7 = 13`
+- Day 3 → `8`
+- Day 4 → `9`
+- Day 5 → `10`
+
+All packages can be shipped within `5` days.
+
+Therefore, the minimum required capacity is `15`.
+
+### Example 2
+
+**Input:**
+
+`weights = [3,2,2,4,1,4]`  
+`days = 3`
+
+**Output:**
+
+`6`
+
+**Explanation:**
+
+With capacity `6`:
+
+- Day 1 → `3 + 2 = 5`
+- Day 2 → `2 + 4 = 6`
+- Day 3 → `1 + 4 = 5`
+
+Therefore, the minimum ship capacity is `6`.
+
+##Solution
+
+
+class Solution {
+    public int shipWithinDays(int[] weights, int days) {
+        int low=0;
+        int high=0;
+        for(int w : weights)
+        {
+            low=Math.max(w,low);
+            high+=w;
+        }
+        while(low<=high)
+        {
+            int mid=low+(high-low)/2;
+            int total=1,sum=0;
+            for(int i=0;i<weights.length;i++)
+            {
+               sum+=weights[i];
+               if(sum>mid)
+               {
+                 i--;
+                 total++;
+                 sum=0;
+               }
+            }
+            
+            if(total<=days)  high=mid-1;
+            else low=mid+1;
+        }
+        return low;
+    }
+}
