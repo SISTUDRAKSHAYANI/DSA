@@ -1,0 +1,92 @@
+## Aggressive Cows
+
+You are given an array `stalls` representing the positions of stalls along a straight line and an integer `k` representing the number of cows.
+
+Place `k` cows in the stalls such that the **minimum distance between any two cows is as large as possible**.
+
+Return the **maximum possible minimum distance** between any two cows.
+
+### Example 1
+
+**Input:**
+
+`stalls = [1,2,4,8,9]`  
+`k = 3`
+
+**Output:**
+
+`3`
+
+**Explanation:**
+
+The cows can be placed at:
+
+`1, 4, 8`
+
+The distances between consecutive cows are:
+
+`3` and `4`
+
+The minimum distance is `3`.
+
+It is not possible to place 3 cows with a minimum distance greater than `3`.
+
+Therefore, the answer is `3`.
+
+### Example 2
+
+**Input:**
+
+`stalls = [10,1,2,7,5]`  
+`k = 3`
+
+**Output:**
+
+`4`
+
+**Explanation:**
+
+After sorting:
+
+`[1,2,5,7,10]`
+
+The cows can be placed at:
+
+`1, 5, 10`
+
+The distances are:
+
+`4` and `5`
+
+Therefore, the maximum possible minimum distance is `4`.
+
+##Solution
+
+
+class Solution {
+    public int aggressiveCows(int[] nums, int k) {
+       int low=1;
+       Arrays.sort(nums);
+       int high=nums[nums.length-1]-nums[0];
+       while(low<=high)
+       {
+        int mid=low+(high-low)/2;
+        int place=nums[0],cows=1;
+        for(int i=1;i<nums.length;i++)
+        {
+            if(nums[i]>=mid+place) 
+            { cows++;
+            place=nums[i];
+            }
+            if(cows>k) break;
+        }
+        if (cows >= k)
+    low = mid + 1;
+     else
+    high = mid - 1;
+       }
+       return high;
+    }
+}
+
+
