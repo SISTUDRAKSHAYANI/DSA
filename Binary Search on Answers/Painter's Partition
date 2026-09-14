@@ -1,0 +1,89 @@
+## Painter's Partition Problem
+
+You are given an array `boards`, where `boards[i]` represents the length of the `i-th` board, and an integer `k` representing the number of painters.
+
+Each painter can paint only **contiguous boards**, and all painters work simultaneously.
+
+The goal is to **minimize the maximum amount of board length assigned to any painter**.
+
+Return the minimum possible maximum time/length required to paint all the boards.
+
+### Example 1
+
+**Input:**
+
+`boards = [10,20,30,40]`  
+`k = 2`
+
+**Output:**
+
+`60`
+
+**Explanation:**
+
+The boards can be divided as:
+
+- Painter 1 → `[10,20,30]` → total = `60`
+- Painter 2 → `[40]` → total = `40`
+
+The maximum workload is `60`.
+
+Therefore, the minimum possible maximum workload is `60`.
+
+### Example 2
+
+**Input:**
+
+`boards = [10,20,30,40]`  
+`k = 3`
+
+**Output:**
+
+`40`
+
+**Explanation:**
+
+The boards can be divided as:
+
+- Painter 1 → `[10,20]` → total = `30`
+- Painter 2 → `[30]` → total = `30`
+- Painter 3 → `[40]` → total = `40`
+
+The maximum workload is `40`.
+
+Therefore, the answer is `40`.
+
+##Solution
+
+
+class Solution {
+    public int paint(int A, int B, int[] C) {
+        // Your code goes here
+        // mid is min time required 
+        int low=Integer.MIN_VALUE;
+        int high=0;
+        for(int i: C)
+        {
+            low=Math.max(low,i);
+            high+=i;
+        }
+       
+        while(low<=high)
+        {
+            int mid=low+(high-low)/2;
+            int painters=1,sum=0;
+            for(int i=0;i<C.length;i++)
+            {
+                if(sum+C[i] <= mid) sum+=C[i];
+                else 
+                {
+                    painters++;
+                    sum=C[i];
+                }
+            }
+            if(painters<=A) high=mid-1;
+            else low=mid+1;
+        }
+       return (int)((1L * low * B) % 10000003);
+    }
+}
