@@ -1,0 +1,89 @@
+## Minimize Max Distance to Gas Station
+
+You are given an array `stations`, where `stations[i]` represents the position of the `i-th` gas station on a number line.
+
+You are also given an integer `k`, representing the number of additional gas stations that can be added.
+
+Place the `k` new gas stations at any positions so that the **maximum distance between two consecutive gas stations is minimized**.
+
+Return the **minimum possible value of the maximum distance** between any two consecutive gas stations.
+
+### Example 1
+
+**Input:**
+
+`stations = [1,2,3,4,5]`  
+`k = 4`
+
+**Output:**
+
+`0.5`
+
+**Explanation:**
+
+We can place the 4 additional gas stations between the existing stations so that every consecutive distance becomes `0.5`.
+
+Therefore, the maximum distance between consecutive gas stations is `0.5`.
+
+### Example 2
+
+**Input:**
+
+`stations = [1,10]`  
+`k = 1`
+
+**Output:**
+
+`4.5`
+
+**Explanation:**
+
+There is a distance of `9` between the two existing stations.
+
+Placing one additional station in the middle divides the distance into two parts:
+
+`4.5` and `4.5`
+
+Therefore, the minimized maximum distance is `4.5`.
+
+
+
+##Solution
+
+class Solution {
+    public static int numberOfGasStationsRequired(double dist,int arr[])
+    {
+      int n=arr.length;
+      int count=0;
+      for(int i=1;i<n;i++)
+      {
+        int numberInBetween = (int) ((arr[i] - arr[i - 1]) / dist);
+            if ((arr[i] - arr[i - 1]) == (dist * numberInBetween)) {
+                numberInBetween--;
+            }
+            count += numberInBetween; //total number of additional gas stations required
+        }
+
+        return count;  //total number of additional gas stations required
+    }
+    
+    public double minimiseMaxDistance(int[] arr, int k) {
+        int n=arr.length;
+        double low=0,high=0;
+        for(int i=0;i<n-1;i++)
+        {
+            high=Math.max(high,arr[i+1]-arr[i]);
+        }
+        double diff=1e-6;
+        while(high-low > diff)
+        {
+            double mid=low+(high-low)/2;
+            int count=numberOfGasStationsRequired(mid, arr);
+            if(count>k) low=mid;
+            else high=mid;
+        }
+        return high;
+    }
+}
+
+
