@@ -1,0 +1,48 @@
+### Find Row with Maximum 1s
+
+Given a binary matrix where each row is sorted in non-decreasing order, find the index of the row containing the maximum number of 1s.
+
+Since the rows are sorted, I used Binary Search to find the first occurrence of 1 in each row. Once the first 1 is found, the number of 1s in that row can be calculated as:
+
+Number of 1s = Total columns - Index of first 1
+
+I keep track of the row with the maximum number of 1s and return its index.
+
+**Time Complexity:** O(rows × log(columns))  
+**Space Complexity:** O(1)
+
+###Solution
+
+class Solution {
+    public int rowWithMax1s(int[][] mat) {
+       int max=0;
+       int index=-1;
+       for(int i=0;i<mat.length;i++)
+       {
+        int first=lowerbound(mat[i],mat[0].length,1);
+        int count=mat[0].length-first;
+        if(count>max)
+        {
+            max=count;
+            index=i;
+        }
+       }
+       return index;
+    }
+    static public int lowerbound(int[] arr,int n,int x)
+    {
+        int low=0,high=n-1;
+        int ans=n;
+        while(low<=high)
+        {
+            int mid=low+(high-low)/2;
+            if(arr[mid]>=x)
+            {
+                ans=mid;
+                high=mid-1;
+            }
+            else low=mid+1;
+        }
+        return ans;
+    }
+}
