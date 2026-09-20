@@ -1,0 +1,48 @@
+## 🔍 LeetCode 240 — Search a 2D Matrix II
+
+### 📝 Problem
+
+Given an `m x n` matrix where:
+
+* Each row is sorted in ascending order from left to right.
+* Each column is sorted in ascending order from top to bottom.
+
+Return `true` if the target exists in the matrix, otherwise return `false`.
+
+### 💡 Approach
+
+Start from the **top-right corner** of the matrix.
+
+At every step:
+
+* If `matrix[row][col] == target` → return `true`.
+* If `matrix[row][col] > target` → move **left**, because all elements below are even larger.
+* If `matrix[row][col] < target` → move **down**, because all elements to the left are smaller.
+
+Continue until the target is found or we move outside the matrix.
+
+### ⏱️ Complexity
+
+* **Time:** `O(m + n)`
+* **Space:** `O(1)`
+
+### 🧠 Pattern
+
+**2D Matrix Search → Start from Top-Right → Eliminate one row or column at every step**
+
+##Solution
+
+class Solution {
+    public boolean searchMatrix(int[][] matrix, int target) {
+       int m=matrix.length;
+       int n = matrix[0].length;
+       int row=0,col=n-1;
+       while(row<m && col>=0)
+       {
+        if(matrix[row][col]<target) row++;
+        else if(matrix[row][col]>target) col--;
+        else return true;
+       } 
+       return false;
+    }
+}
