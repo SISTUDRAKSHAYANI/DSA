@@ -1,0 +1,67 @@
+## 🔍 LeetCode 1901 — Find a Peak Element II
+
+### 📝 Problem
+
+Given an `m x n` matrix where adjacent cells are different, find any **peak element**.
+
+A cell is a peak if it is strictly greater than its four neighbors (up, down, left, right). Boundary cells are treated as having `-1` outside the matrix.
+
+### 💡 Approach
+
+Use **Binary Search on columns**.
+
+For the middle column:
+
+1. Find the **maximum element** in that column.
+2. Compare it with its left and right neighbors.
+3. If it is greater than both, it is a peak.
+4. If the left neighbor is greater, move the search to the **left half**.
+5. Otherwise, move to the **right half**.
+
+The maximum element of the chosen column is already greater than its upper and lower neighbors, so we only need to compare it with the left and right neighbors.
+
+### ⏱️ Complexity
+
+* **Time:** `O(m log n)`
+* **Space:** `O(1)`
+
+### 🧠 Pattern
+
+**Binary Search on 2D Matrix → Binary Search on Columns → Find Maximum in Middle Column**
+
+
+###Solution
+
+class Solution {
+    public int[] findPeakGrid(int[][] mat) {
+        int n=mat.length;
+        int m=mat[0].length;
+        int low=0,high=m-1;
+        while(low<=high)
+        {
+            int mid=low+(high-low)/2;
+            int row=FindMaxRowInCol(mat,mid);
+            int left=mid-1>=0?mat[row][mid-1]:Integer.MIN_VALUE;
+            int right=mid+1<m?mat[row][mid+1]:Integer.MIN_VALUE;
+            if(mat[row][mid]>left && mat[row][mid]>right) return new int[]{row,mid};
+            else if(mat[row][mid]<left)  high=mid-1;
+            else low=mid+1;
+        }
+    return new int[]{-1,-1};
+    }
+    public static int FindMaxRowInCol(int[][] a,int col)
+    {
+       int n=a.length;
+       int max=Integer.MIN_VALUE;
+       int index=-1;
+       for(int i=0;i<n;i++)
+       {
+        if(a[i][col]>max)
+        {
+            max=a[i][col];
+            index=i;
+        }
+       }
+       return index;
+    }
+}
