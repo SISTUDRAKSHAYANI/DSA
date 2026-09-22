@@ -1,0 +1,80 @@
+## 🔍 Matrix Median
+
+### 📝 Problem
+Given a row-wise sorted matrix, find the median of all the elements in the matrix.
+
+### 💡 Approach
+Instead of actually flattening and sorting the matrix, use **Binary Search on the value range**.
+
+1. Find the minimum element and maximum element of the matrix.
+2. Apply binary search between `low` and `high`.
+3. For each `mid`, count how many elements in the matrix are `<= mid`.
+   - Since every row is sorted, use **Binary Search** in each row to find this count efficiently.
+4. If the count is less than or equal to half of the total elements, move `low` to `mid + 1`.
+5. Otherwise, move `high` to `mid`.
+6. When `low == high`, it represents the median.
+
+### ⏱️ Complexity
+- **Time:** `O(m × log n × log(max - min))`
+- **Space:** `O(1)`
+
+### 🧠 Pattern
+**Binary Search on Answer → Sorted Rows → Count elements ≤ mid using Binary Search**
+
+###Solution
+
+class Solution {
+    public int findMedian(int[][] matrix) {
+        int rows = matrix.length;
+        int cols = matrix[0].length;
+
+        int low = Integer.MAX_VALUE;
+        int high = Integer.MIN_VALUE;
+
+        // Find the minimum and maximum possible values
+        for (int i = 0; i < rows; i++) {
+            low = Math.min(low, matrix[i][0]);
+            high = Math.max(high, matrix[i][cols - 1]);
+        }
+
+        int required = (rows * cols) / 2;
+
+        // Binary search on the answer
+        while (low < high) {
+            int mid = low + (high - low) / 2;
+
+            int count = 0;
+
+            // Count elements <= mid in every row
+            for (int i = 0; i < rows; i++) {
+                count += upperBound(matrix[i], mid);
+            }
+
+            if (count <= required) {
+                low = mid + 1;
+            } else {
+                high = mid;
+            }
+        }
+
+        return low;
+    }
+
+    // Returns the number of elements <= target
+    private int upperBound(int[] row, int target) {
+        int left = 0;
+        int right = row.length;
+
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+
+            if (row[mid] <= target) {
+                left = mid + 1;
+            } else {
+                right = mid;
+            }
+        }
+
+        return left;
+    }
+}
