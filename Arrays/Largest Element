@@ -1,0 +1,25 @@
+🔢 Largest Element in an Array
+
+The goal is to find the largest element present in an array.
+
+- Initialize a variable with the first element of the array.
+- Traverse through the remaining elements.
+- Compare each element with the current largest element.
+- If the current element is greater, update the largest element.
+- After traversing the entire array, the variable contains the largest element.
+
+Time Complexity: "O(n)"
+Space Complexity: "O(1)"
+
+## Solution
+
+class Solution {
+    public int largestElement(int[] nums) {
+       int max=Integer.MIN_VALUE;
+       for(int i=0;i<nums.length;i++)
+       {
+           if(nums[i]>max) max=nums[i];
+       }
+       return max;
+    }
+}
