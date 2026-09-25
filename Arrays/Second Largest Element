@@ -1,0 +1,31 @@
+### 🥈 Second Largest Element in an Array
+
+The goal is to find the second largest element in an array without sorting it.
+
+* Initialize two variables to keep track of the **largest** and **second largest** elements.
+* Traverse through the array and compare each element with the largest element.
+* If the current element is greater than the largest, update both largest and second largest.
+* Otherwise, if the current element is smaller than the largest but greater than the second largest, update the second largest.
+* After traversing the entire array, the second largest variable contains the required answer.
+
+**Time Complexity:** `O(n)`
+**Space Complexity:** `O(1)`
+
+### Solution
+
+class Solution {
+    public int secondLargestElement(int[] nums) {
+       int largest =Integer.MIN_VALUE;
+       int slargest=Integer.MIN_VALUE;
+       for(int i=0;i<nums.length;i++)
+       {
+        if(nums[i]>largest)
+        {
+            slargest=largest;
+            largest=nums[i];
+        }
+        else if(nums[i]<largest && nums[i]>slargest) slargest=nums[i];
+       }
+       return slargest==Integer.MIN_VALUE?-1:slargest;
+    }
+}
