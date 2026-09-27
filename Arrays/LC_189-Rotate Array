@@ -1,0 +1,80 @@
+### 🔄 Rotate Array
+
+The goal is to rotate the elements of an array to the **right by `k` positions**.
+
+For example:
+
+`nums = [1, 2, 3, 4, 5, 6, 7]` and `k = 3`
+
+After rotating the array:
+
+`[5, 6, 7, 1, 2, 3, 4]`
+
+### 💡 Approach — Reversal Algorithm
+
+We can rotate the array efficiently using the **reversal technique**.
+
+1. **Handle large values of `k`:**
+   Since rotating an array `n` times brings it back to its original position, we use:
+   `k = k % n`
+
+2. **Reverse the entire array:**
+   Reverse all the elements of the array.
+
+   `[1, 2, 3, 4, 5, 6, 7]`
+   → `[7, 6, 5, 4, 3, 2, 1]`
+
+3. **Reverse the first `k` elements:**
+   Reverse the first `k` elements to put the elements that need to move to the beginning in the correct order.
+
+   `[7, 6, 5, 4, 3, 2, 1]`
+   → `[5, 6, 7, 4, 3, 2, 1]`
+
+4. **Reverse the remaining elements:**
+   Reverse the remaining `n-k` elements.
+
+   `[5, 6, 7, 4, 3, 2, 1]`
+   → `[5, 6, 7, 1, 2, 3, 4]`
+
+Thus, the array is rotated to the right by `k` positions.
+
+### ⏱️ Complexity
+
+**Time Complexity:** `O(n)` — Each element is involved in a constant number of reversals.
+
+**Space Complexity:** `O(1)` — The array is modified in-place without using an extra array.
+
+### 🧠 Key Pattern
+
+**Reverse → Reverse first `k` → Reverse remaining `n-k`**
+
+This is an important **in-place array manipulation technique**.
+
+
+
+### Solution
+
+class Solution {
+    public void rotate(int[] nums, int k) {
+        k=k%nums.length;
+        if(nums.length>1){
+        rotate1(nums,0,nums.length-k-1);
+        rotate1(nums,nums.length-k,nums.length-1);
+        rotate1(nums,0,nums.length-1);
+        }
+        
+    }
+    public static void rotate1(int nums[],int start,int end)
+    {
+        while(start<=end)
+        {
+            int temp=nums[start];
+            nums[start]=nums[end];
+            nums[end]=temp;
+            start++;
+            end--;
+        }
+    } 
+}
+
+
