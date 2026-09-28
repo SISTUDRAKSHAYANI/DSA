@@ -1,0 +1,53 @@
+0️⃣ Move Zeroes to the End
+
+The goal is to move all the "0"s in an array to the end, while maintaining the relative order of the non-zero elements.
+
+For example:
+
+"nums = [0, 1, 0, 3, 12]"
+
+After moving zeroes:
+
+"[1, 3, 12, 0, 0]"
+
+💡 Approach — Two Pointer Technique
+
+We can solve this problem efficiently using the two-pointer technique.
+
+1. Maintain a pointer "j" that keeps track of the position where the next non-zero element should be placed.
+2. Traverse the array using another pointer "i".
+3. Whenever a non-zero element is found, swap it with the element at position "j".
+4. Increment "j" after placing the non-zero element.
+5. Continue until the entire array is traversed.
+6. As a result, all non-zero elements come to the beginning in their original order, and all zeroes are moved to the end.
+
+🧠 Key Pattern
+
+Two Pointers + In-place Swapping
+
+The array is modified directly without using an extra array.
+
+⏱️ Complexity
+
+Time Complexity: "O(n)" — We traverse the array only once.
+
+Space Complexity: "O(1)" — No extra array or significant additional space is used.
+
+##Solution
+
+class Solution {
+    public void moveZeroes(int[] nums) {
+        int count=0;
+        int temp=0;
+        for(int i=0;i<nums.length;i++)
+        {
+            if(nums[i]!=0)
+            {
+               temp=nums[i];
+               nums[i]=nums[count];
+               nums[count]=temp;
+               count++;
+            }
+        }
+    }
+}
