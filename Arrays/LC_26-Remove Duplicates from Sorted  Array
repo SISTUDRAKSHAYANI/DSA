@@ -1,0 +1,58 @@
+### 🔢 Remove Duplicates from Sorted Array
+
+The goal is to remove duplicate elements from a **sorted array** in-place and keep only the unique elements in their original order.
+
+For example:
+
+`nums = [1, 1, 2, 2, 3]`
+
+After removing duplicates:
+
+`[1, 2, 3]`
+
+The first `k` positions of the array contain the unique elements, where `k` is the number of unique elements.
+
+### 💡 Approach — Two Pointer Technique
+
+Since the array is already **sorted**, duplicate elements will always appear next to each other.
+
+1. Use one pointer `i` to keep track of the position of the **last unique element**.
+2. Start another pointer `j` from the second element and traverse the array.
+3. Compare `nums[j]` with `nums[i]`.
+4. If they are different, a new unique element is found.
+5. Increment `i` and place `nums[j]` at `nums[i]`.
+6. Continue until the entire array is traversed.
+7. The first `i + 1` elements will contain all the unique elements.
+
+### 🧠 Key Pattern
+
+**Two Pointers + In-place Modification**
+
+The important observation is that because the array is sorted, we only need to compare the current element with the **last unique element**.
+
+### ⏱️ Complexity
+
+**Time Complexity:** `O(n)` — We traverse the array once.
+
+**Space Complexity:** `O(1)` — The elements are modified in-place without using an extra array.
+
+
+###Solution
+
+class Solution {
+    public int removeDuplicates(int[] nums) {
+        if(nums.length==0)
+           return 0;
+        int k=1;
+        for(int i=1;i<nums.length;i++)
+        {
+            if(nums[i]!=nums[i-1])
+            {
+                nums[k]=nums[i];
+                k++;
+            }
+        }
+        return k; 
+    }
+}
+
