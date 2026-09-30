@@ -1,0 +1,52 @@
+### 🔍 Find the Missing Number
+
+The goal is to find the **missing number** from an array containing `n` distinct numbers taken from the range `0` to `n`.
+
+For example:
+
+`nums = [3, 0, 1]`
+
+The numbers should be `0, 1, 2, 3`, so the missing number is:
+
+`2`
+
+### 💡 Approach — XOR
+
+We can solve this problem efficiently using the **XOR operation**.
+
+1. Initialize a variable `xor` with `n`.
+2. Traverse through the array.
+3. XOR the current index with the corresponding array element.
+4. XOR has a useful property:
+
+   * `a ^ a = 0`
+   * `a ^ 0 = a`
+5. Therefore, all numbers that appear both in the expected range and the array cancel each other out.
+6. The number left after all XOR operations is the **missing number**.
+
+### 🧠 Key Pattern
+
+**XOR + Array Traversal**
+
+Using XOR avoids the need for sorting or an extra data structure and allows us to find the missing number in a single traversal.
+
+### ⏱️ Complexity
+
+**Time Complexity:** `O(n)` — We traverse the array once.
+
+**Space Complexity:** `O(1)` — Only a single variable is used apart from the input array.
+
+##Solution
+
+class Solution {
+    public int missingNumber(int[] nums) {
+       int n =nums.length;
+        int exp=n*(n + 1)/2;
+        int actual=0;
+        for(int x:nums)
+        {
+            actual=actual+x;
+       }
+       return exp-actual;
+    }
+}
