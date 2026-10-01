@@ -1,0 +1,67 @@
+### 🔗 Union of Two Sorted Arrays
+
+The goal is to find the **union of two sorted arrays**, which means combining all the unique elements from both arrays into a single sorted array.
+
+For example:
+
+`arr1 = [1, 2, 3, 4, 5]`
+`arr2 = [2, 3, 4, 6, 7]`
+
+The union is:
+
+`[1, 2, 3, 4, 5, 6, 7]`
+
+Each element should appear **only once**, even if it occurs in both arrays.
+
+### 💡 Approach — Two Pointer Technique
+
+Since both arrays are already **sorted**, we can use two pointers to efficiently compare their elements.
+
+1. Initialize two pointers, `i` and `j`, at the beginning of the two arrays.
+2. Compare `arr1[i]` and `arr2[j]`.
+3. Add the smaller element to the result and move the corresponding pointer.
+4. If both elements are equal, add the element only once and move both pointers.
+5. Once one array is completely traversed, add the remaining unique elements from the other array.
+6. Before adding an element, check whether it is already the last element added to the result to avoid duplicates.
+
+### 🧠 Key Pattern
+
+**Two Pointers + Sorted Arrays**
+
+The sorted nature of the arrays allows us to compare elements from left to right without sorting them again.
+
+### ⏱️ Complexity
+
+**Time Complexity:** `O(n + m)` — Each element of both arrays is visited at most once.
+
+**Space Complexity:** `O(n + m)` — The result array stores the unique elements from both arrays.
+
+
+##Solution
+
+import java.util.TreeSet;
+
+class Solution {
+    public int[] unionArray(int[] nums1, int[] nums2) {
+        // TreeSet automatically stores elements in unique, ascending order
+        TreeSet<Integer> set = new TreeSet<>();
+        
+        for (int num : nums1) {
+            set.add(num);
+        }
+        for (int num : nums2) {
+            set.add(num);
+        }
+        
+        // Convert the set back to a primitive int array
+        int[] result = new int[set.size()];
+        int i = 0;
+        for (int num : set) {
+            result[i++] = num;
+        }
+        
+        return result;
+    }
+}
+
+
