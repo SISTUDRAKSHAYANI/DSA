@@ -1,0 +1,64 @@
+### 🔗 Intersection of Two Sorted Arrays
+
+The goal is to find the **common elements** that are present in both sorted arrays.
+
+For example:
+
+`arr1 = [1, 2, 2, 3, 4]`
+`arr2 = [2, 2, 4, 6]`
+
+The intersection is:
+
+`[2, 2, 4]`
+
+### 💡 Approach — Two Pointer Technique
+
+Since both arrays are already **sorted**, we can use two pointers to compare their elements efficiently.
+
+1. Initialize two pointers, `i` and `j`, at the beginning of the two arrays.
+2. Compare `arr1[i]` and `arr2[j]`.
+3. If both elements are equal, add the element to the result and move both pointers forward.
+4. If `arr1[i]` is smaller, move `i` forward because that element cannot match the current or future elements of `arr2`.
+5. If `arr2[j]` is smaller, move `j` forward for the same reason.
+6. Continue until either pointer reaches the end of its array.
+7. The elements collected in the result are the common elements of both arrays.
+
+### 🧠 Key Pattern
+
+**Two Pointers + Sorted Arrays**
+
+The sorted order allows us to skip elements that cannot be part of the intersection, avoiding unnecessary comparisons.
+
+### ⏱️ Complexity
+
+**Time Complexity:** `O(n + m)` — Each array is traversed at most once.
+
+**Space Complexity:** `O(min(n, m))` — The result can contain at most the size of the smaller array.
+
+
+##Solution
+
+class Solution {
+    public int[] intersectionArray(int[] nums1, int[] nums2) {
+        int n1 = nums1.length;
+        int n2 = nums2.length;
+        int[] temp = new int[Math.min(n1, n2)];
+        int i = 0, j = 0, k = 0;
+        
+        while (i < n1 && j < n2) {
+            if (nums1[i] == nums2[j]) {
+                temp[k++] = nums1[i];
+                i++;
+                j++;
+            }
+            else if (nums1[i] < nums2[j]) i++;
+            else j++;
+        }
+        
+        // Trim the array to the actual number of elements found
+        int[] result = new int[k];
+        System.arraycopy(temp, 0, result, 0, k);
+        return result;
+    }
+}
+
