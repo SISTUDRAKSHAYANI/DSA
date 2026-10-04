@@ -1,0 +1,71 @@
+### 👑 Leaders in an Array
+
+The goal is to find all the **leaders** in an array.
+
+An element is called a **leader** if it is greater than all the elements to its right. The **last element is always a leader** because there are no elements after it.
+
+For example:
+
+`arr = [10, 22, 12, 3, 0, 6]`
+
+The leaders are:
+
+`[22, 12, 6]`
+
+### 💡 Approach — Traverse from Right to Left
+
+Instead of checking every element against all the elements on its right, we can traverse the array **from right to left**.
+
+1. Start from the last element and consider it as the current maximum.
+2. The last element is always a leader, so add it to the result.
+3. Move towards the left and compare each element with the current maximum.
+4. If the current element is **greater than the maximum**, it is a leader.
+5. Add the element to the result and update the maximum.
+6. Continue until the beginning of the array is reached.
+7. Since we collected the leaders from right to left, reverse the result to get them in their original left-to-right order.
+
+### 🧠 Key Pattern
+
+**Traverse from Right to Left + Maintain Maximum**
+
+The important observation is that while moving from right to left, we only need to keep track of the **maximum element seen so far**. This avoids repeatedly checking all elements to the right.
+
+### ⏱️ Complexity
+
+**Time Complexity:** `O(n)` — The array is traversed once.
+
+**Space Complexity:** `O(n)` — The result stores the leaders.
+**Extra Space:** `O(1)` apart from the output array.
+
+
+##Solution
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+class Solution {
+    public List<Integer> leaders(int[] nums) {
+        List<Integer> ans = new ArrayList<>();
+        int n = nums.length;
+        
+        // Edge case: empty array
+        if (n == 0) return ans; 
+        
+        ans.add(nums[n-1]);
+        int max = nums[n-1];
+        
+        for (int i = n - 2; i >= 0; i--) {
+            // Note: Use '>=' if the problem states a leader must be greater than OR equal to
+            if (nums[i] > max) { 
+                ans.add(nums[i]);
+                max = nums[i];
+            }
+        }
+        
+        // Reversing the list to restore original array order
+        Collections.reverse(ans); 
+        return ans;
+    }
+}
+
