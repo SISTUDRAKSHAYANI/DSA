@@ -1,0 +1,91 @@
+### 🌀 Spiral Matrix
+
+The goal is to traverse all the elements of a matrix in **spiral order**, starting from the top-left corner and moving in a clockwise direction.
+
+For example:
+
+```text
+1  2  3
+4  5  6
+7  8  9
+```
+
+The spiral order is:
+
+`[1, 2, 3, 6, 9, 8, 7, 4, 5]`
+
+### 💡 Approach — Boundary Traversal
+
+We maintain four boundaries to keep track of the remaining unvisited portion of the matrix:
+
+* `top` — first unvisited row
+* `bottom` — last unvisited row
+* `left` — first unvisited column
+* `right` — last unvisited column
+
+Then we traverse the matrix in four directions:
+
+1. **Left → Right:** Traverse the top row and then increment `top`.
+2. **Top → Bottom:** Traverse the right column and then decrement `right`.
+3. **Right → Left:** Traverse the bottom row and then decrement `bottom`.
+4. **Bottom → Top:** Traverse the left column and then increment `left`.
+
+After each traversal, the corresponding boundary is updated so that already visited elements are not processed again.
+
+We continue this process while `top <= bottom` and `left <= right`.
+
+### 🧠 Key Pattern
+
+**Boundary Traversal + Matrix Simulation**
+
+The important idea is to gradually shrink the boundaries of the matrix after processing each outer layer. This allows us to visit every element exactly once.
+
+### ⏱️ Complexity
+
+**Time Complexity:** `O(m × n)` — Every element of the matrix is visited once.
+
+**Space Complexity:** `O(m × n)` — The result list stores all the elements in spiral order.
+
+**Extra Space:** `O(1)` apart from the output list.
+
+
+##Solution
+
+class Solution {
+    public List<Integer> spiralOrder(int[][] matrix) {
+        int m=matrix.length;
+        int n=matrix[0].length;
+        List<Integer> ans = new ArrayList<>();
+        int left=0,right=n-1,top=0,bottom=m-1;
+        while(top<=bottom && left<=right)
+        {
+        for(int i=left;i<=right;i++)
+        {
+            ans.add(matrix[top][i]);
+        }
+        top++;
+        for(int i=top;i<=bottom;i++)
+        {
+            ans.add(matrix[i][right]);
+        }
+        right--;
+        if(top<=bottom)
+        {
+        for(int i=right;i>=left;i--)
+        {
+            ans.add(matrix[bottom][i]);
+        }
+        bottom--;
+        }
+        if(left<=right)
+        {
+         for(int i=bottom;i>=top;i--)
+        {
+            ans.add(matrix[i][left]);
+        }
+        left++;
+        }
+        }
+        return ans;
+    }
+}
