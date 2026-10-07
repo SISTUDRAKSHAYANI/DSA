@@ -1,0 +1,67 @@
+### 🔺 Pascal's Triangle
+
+Pascal's Triangle is a triangular arrangement of numbers where each row starts and ends with `1`. Every number in between is obtained by adding the **two numbers directly above it**.
+
+For example, for `numRows = 5`:
+
+```text
+        1
+       1 1
+      1 2 1
+     1 3 3 1
+    1 4 6 4 1
+```
+
+### 💡 Approach
+
+We can build Pascal's Triangle **row by row**.
+
+1. Start with an empty list to store all the rows.
+2. For every row, create a new list.
+3. The first element of every row is always `1`.
+4. For the elements between the first and last positions, add the two elements from the previous row:
+
+   * `previous[j - 1] + previous[j]`
+5. The last element of every row is also `1`.
+6. Add the newly created row to the triangle.
+7. Continue until the required number of rows is generated.
+
+### 🧠 Key Pattern
+
+**Previous Row → Calculate Current Row**
+
+The important observation is that every element inside a row depends only on the **two adjacent elements from the previous row**.
+
+### ⏱️ Complexity
+
+**Time Complexity:** `O(n²)` — We generate approximately `n²` elements for `n` rows.
+
+**Space Complexity:** `O(n²)` — The complete Pascal's Triangle is stored as the result.
+
+
+##Solution
+
+
+class Solution {
+    public List<List<Integer>> generate(int numRows) {
+        List<List<Integer>> ans = new ArrayList<>();
+        for(int i=1;i<=numRows;i++)
+        {
+            ans.add(generaterow(i));
+        }
+        return ans;
+    }
+    public static List<Integer> generaterow(int n)
+    {
+     List<Integer> row= new ArrayList<>();
+     long ans=1;
+     row.add((int)ans);
+     for(int col=1;col<n;col++)
+     {
+        ans=ans*(n-col);
+        ans=ans/col;
+        row.add((int)ans);
+     }
+     return row;
+    }
+}
