@@ -1,0 +1,83 @@
+### 🔄 Rotate Image
+
+The goal is to rotate an `n × n` matrix **90 degrees clockwise**.
+
+For example:
+
+```text
+1  2  3
+4  5  6
+7  8  9
+```
+
+After rotating 90° clockwise:
+
+```text
+7  4  1
+8  5  2
+9  6  3
+```
+
+### 💡 Approach — Transpose + Reverse
+
+We can rotate the matrix **in-place** without using another matrix by using two simple steps.
+
+1. **Transpose the matrix:**
+   Convert every row into a column by swapping `matrix[i][j]` with `matrix[j][i]`.
+
+   ```text
+   1  2  3        1  4  7
+   4  5  6   →    2  5  8
+   7  8  9        3  6  9
+   ```
+
+2. **Reverse each row:**
+   After transposing, reverse every row to obtain the 90° clockwise rotation.
+
+   ```text
+   1  4  7        7  4  1
+   2  5  8   →    8  5  2
+   3  6  9        9  6  3
+   ```
+
+### 🧠 Key Pattern
+
+**Transpose → Reverse Each Row**
+
+The important observation is that a **90° clockwise rotation** of a square matrix can be achieved by first transposing it and then reversing each row.
+
+### ⏱️ Complexity
+
+**Time Complexity:** `O(n²)` — Every element is accessed a constant number of times.
+
+**Space Complexity:** `O(1)` — The matrix is rotated **in-place** without using an extra matrix.
+
+
+##Solution
+
+class Solution {
+    public void rotate(int[][] matrix) {
+        int n=matrix.length;
+        for(int i=0;i<n-1;i++)
+        {
+            for(int j=i+1;j<n;j++)
+            {
+                int temp=matrix[i][j];
+                matrix[i][j]=matrix[j][i];
+                matrix[j][i]=temp;
+            }
+        }
+        for(int i=0;i<n;i++)
+        {
+            int left=0,right=n-1;
+            while(left<right)
+            {
+                int temp=matrix[i][left];
+                matrix[i][left]=matrix[i][right];
+                matrix[i][right]=temp;
+                left++;
+                right--;
+            }
+        }
+    }
+}
