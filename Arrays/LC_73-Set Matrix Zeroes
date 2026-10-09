@@ -1,0 +1,107 @@
+### 0️⃣ Set Matrix Zeroes
+
+The goal is to modify a matrix such that if any element is `0`, its entire row and column are set to `0`.
+
+For example:
+
+**Input:**
+
+```text
+1  1  1
+1  0  1
+1  1  1
+```
+
+**Output:**
+
+```text
+1  0  1
+0  0  0
+1  0  1
+```
+
+### 💡 Approach — In-Place Matrix Modification
+
+We can solve this problem by using the first row and first column to store information about which rows and columns need to be set to zero.
+
+1. **Identify the first row and column:** Check whether the first row or the first column originally contains any zeroes, and store this information separately.
+2. **Mark rows and columns:** Traverse the remaining matrix. Whenever a zero is found at `matrix[i][j]`, mark its corresponding row and column by setting `matrix[i][0]` and `matrix[0][j]` to zero.
+3. **Update the inner matrix:** Traverse the matrix again, excluding the first row and column. If either the corresponding row marker or column marker is zero, set that element to zero.
+4. **Update the first row and column:** Use the separately stored flags to determine whether the first row or first column should be set entirely to zero.
+
+This approach avoids using an additional matrix and handles the first row and column separately to prevent losing the original information.
+
+### 🧠 Key Pattern
+
+**Matrix Traversal + In-Place Marking**
+
+The important observation is that the first row and first column can act as markers, allowing us to identify which rows and columns must be zeroed without using extra arrays.
+
+### ⏱️ Complexity
+
+**Time Complexity:** `O(m × n)` — The matrix is traversed a constant number of times.
+
+**Space Complexity:** `O(1)` — Only a constant number of extra variables are used, and the matrix is modified in-place.
+
+##Solution
+
+class Solution {
+    public void setZeroes(int[][] matrix) {
+        int m = matrix.length;
+        int n = matrix[0].length;
+
+        // Flag to track if first row should be zeroed
+        boolean firstRowZero = false;
+        // Flag to track if first column should be zeroed
+        boolean firstColZero = false;
+
+        // Check if first row has any zero
+        for (int j = 0; j < n; j++) {
+            if (matrix[0][j] == 0) {
+                firstRowZero = true;
+                break;
+            }
+        }
+
+        // Check if first column has any zero
+        for (int i = 0; i < m; i++) {
+            if (matrix[i][0] == 0) {
+                firstColZero = true;
+                break;
+            }
+        }
+
+        // Use first row/column as markers
+        for (int i = 1; i < m; i++) {
+            for (int j = 1; j < n; j++) {
+                if (matrix[i][j] == 0) {
+                    matrix[i][0] = 0;
+                    matrix[0][j] = 0;
+                }
+            }
+        }
+
+        // Set cells to zero based on markers
+        for (int i = 1; i < m; i++) {
+            for (int j = 1; j < n; j++) {
+                if (matrix[i][0] == 0 || matrix[0][j] == 0) {
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+
+        // Zero the first row if needed
+        if (firstRowZero) {
+            for (int j = 0; j < n; j++) {
+                matrix[0][j] = 0;
+            }
+        }
+
+        // Zero the first column if needed
+        if (firstColZero) {
+            for (int i = 0; i < m; i++) {
+                matrix[i][0] = 0;
+            }
+        }
+    }
+}
