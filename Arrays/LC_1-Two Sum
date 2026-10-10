@@ -1,0 +1,63 @@
+### 🎯 Two Sum
+
+The goal is to find the indices of two elements in an array whose sum is equal to a given target.
+
+For example:
+
+**Input:**
+```text
+nums = [2, 7, 11, 15]
+target = 9
+```
+
+**Output:**
+```text
+[0, 1]
+```
+
+The elements `2` and `7` add up to `9`, and their indices are `0` and `1`.
+
+### 💡 Approach — HashMap
+
+We can solve this problem efficiently using a **HashMap** to store the elements we have already visited along with their indices.
+
+1. Traverse the array one element at a time.
+2. For each element, calculate its complement using `target - nums[i]`.
+3. Check whether the complement already exists in the HashMap.
+4. If it exists, return the index of the complement and the current index.
+5. Otherwise, store the current element and its index in the HashMap.
+6. Continue until a valid pair is found.
+
+This approach avoids checking every possible pair and reduces the time required to find the answer.
+
+### 🧠 Key Pattern
+
+**Hashing + Complement Search**
+
+The key observation is that for every element, we only need to find its complement (`target - current element`) instead of checking all other elements.
+
+### ⏱️ Complexity
+
+**Time Complexity:** `O(n)` — Each element is processed once on average.
+
+**Space Complexity:** `O(n)` — The HashMap may store up to `n` elements.
+
+##Solution
+
+
+
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+       HashMap<Integer,Integer> map=new HashMap<>();
+
+       for(int i=0;i<nums.length;i++) {
+        int comp=target-nums[i];
+        if(map.containsKey(comp)) {
+            return new int[]{map.get(comp),i};
+        }
+        map.put(nums[i],i);
+       }
+       return new int[]{};
+    }
+}
+
