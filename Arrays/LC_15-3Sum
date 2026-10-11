@@ -1,0 +1,80 @@
+### 🎯 3Sum
+
+The goal is to find all **unique triplets** in an array whose elements add up to `0`.
+
+For example:
+
+**Input:**
+```text
+nums = [-1, 0, 1, 2, -1, -4]
+```
+
+**Output:**
+```text
+[[-1, -1, 2], [-1, 0, 1]]
+```
+
+Both triplets have a sum of `0`, and duplicate triplets are not included in the result.
+
+### 💡 Approach — Sorting + Two Pointers
+
+We can solve this problem efficiently by sorting the array and using the two-pointer technique.
+
+1. **Sort the array:** Arrange the elements in ascending order to make it easier to find triplets.
+2. **Fix the first element:** Traverse the array and select each element as the first element of a potential triplet.
+3. **Initialize two pointers:** Set `left` to the next index and `right` to the last index.
+4. **Calculate the sum:** Add the elements at the fixed index, `left`, and `right`.
+5. **Adjust the pointers:**
+   - If the sum is `0`, store the triplet and move both pointers inward.
+   - If the sum is less than `0`, move `left` forward to increase the sum.
+   - If the sum is greater than `0`, move `right` backward to decrease the sum.
+6. **Avoid duplicates:** Skip repeated elements at the fixed index and after finding a valid triplet to ensure that every triplet is unique.
+7. Continue until all possible unique triplets have been considered.
+
+### 🧠 Key Pattern
+
+**Sorting + Two Pointers + Duplicate Handling**
+
+The important observation is that sorting allows us to adjust the pointers based on the sum, avoiding the need to check every possible combination of three elements.
+
+### ⏱️ Complexity
+
+**Time Complexity:** `O(n²)` — Sorting takes `O(n log n)`, and the nested traversal with two pointers takes `O(n²)`.
+
+**Space Complexity:** `O(1)` auxiliary space, excluding the output and any space used internally by the sorting algorithm.
+
+##Solution
+
+class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+        Arrays.sort(nums);
+        List<List<Integer>> ans = new ArrayList<>();
+        for(int i=0;i<nums.length;i++)
+        {
+          if(i>0 && nums[i]==nums[i-1]) 
+          continue;
+          int left=i+1;
+          int right=nums.length-1;
+          while(left<right)
+          {
+            int sum=nums[i]+nums[left]+nums[right];
+            if(sum==0)
+            {
+                ans.add(Arrays.asList(nums[i],nums[left],nums[right]));
+                left++;
+                right--;
+                while(left<right && nums[left]==nums[left-1])
+                left++;
+                while(left<right && nums[right]==nums[right+1])
+                right--;
+            }
+            else if(sum<0)
+            left++;
+            else
+            right--;
+          }
+        }
+        return ans;
+    }
+}
+
