@@ -1,0 +1,90 @@
+### 🎯 4Sum
+
+The goal is to find all **unique quadruplets** in an array whose elements add up to a given target.
+
+For example:
+
+**Input:**
+```text
+nums = [1, 0, -1, 0, -2, 2]
+target = 0
+```
+
+**Output:**
+```text
+[[-2, -1, 1, 2],
+ [-2, 0, 0, 2],
+ [-1, 0, 0, 1]]
+```
+
+Each quadruplet contains four elements whose sum equals the target, and duplicate quadruplets are not included.
+
+### 💡 Approach — Sorting + Two Pointers
+
+We can solve this problem efficiently by sorting the array and using two nested loops along with the two-pointer technique.
+
+1. **Sort the array:** Arrange the elements in ascending order to simplify the search for quadruplets.
+2. **Fix the first element:** Use the first loop to select the first element of a potential quadruplet.
+3. **Fix the second element:** Use the second loop to select the next element.
+4. **Initialize two pointers:** Set `left` to the element after the second fixed element and `right` to the last element.
+5. **Calculate the sum:** Add the four selected elements and compare the result with the target.
+6. **Adjust the pointers:**
+   - If the sum equals the target, store the quadruplet and move both pointers inward.
+   - If the sum is smaller than the target, move `left` forward to increase the sum.
+   - If the sum is greater than the target, move `right` backward to decrease the sum.
+7. **Avoid duplicates:** Skip repeated values at both fixed positions and after finding a valid quadruplet.
+8. Continue until all possible unique quadruplets have been considered.
+
+### 🧠 Key Pattern
+
+**Sorting + Two Nested Loops + Two Pointers**
+
+The key observation is that sorting the array allows us to adjust the pointers based on the sum and efficiently find quadruplets without checking every possible combination.
+
+### ⏱️ Complexity
+
+**Time Complexity:** `O(n³)` — Sorting takes `O(n log n)`, followed by two nested loops and a linear two-pointer traversal.
+
+**Space Complexity:** `O(1)` auxiliary space, excluding the output and any space used internally by the sorting algorithm.
+
+##Solution
+
+class Solution {
+    public List<List<Integer>> fourSum(int[] nums, int target) {
+        List<List<Integer>> ans = new ArrayList<>();
+        int n=nums.length;
+        Arrays.sort(nums);
+        for(int i=0;i<n;i++)
+        {
+            if(i>0 && nums[i]==nums[i-1])
+            continue;
+            for(int j=i+1;j<n;j++)
+           {
+            if(j>i+1 && nums[j]==nums[j-1])
+            continue;
+            int k=j+1;
+            int l=n-1;
+            while(k<l)
+            {
+                 long sum=(long)nums[i]+nums[j]+nums[k]+nums[l];
+                if(target==sum)
+                {
+                    ans.add(Arrays.asList(nums[i],nums[j],nums[k],nums[l]));
+                    while(k<l&& nums[k]==nums[k+1])
+                    k++;
+                    while(k<l && nums[l]==nums[l-1])
+                    l--;
+                    k++;
+                    l--;
+                }
+                else if(sum<target)
+                   k++;
+                else
+                l--;
+            }
+           }
+        }
+        return ans;
+    }
+}
+
