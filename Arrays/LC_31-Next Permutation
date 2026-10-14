@@ -1,0 +1,89 @@
+### 🔄 Next Permutation
+
+The goal is to rearrange the elements of an array into the **next lexicographically greater permutation**. If the current arrangement is the largest possible permutation, rearrange it into the smallest permutation in ascending order.
+
+For example:
+
+**Input:**
+```text
+nums = [1, 2, 3]
+```
+
+**Output:**
+```text
+[1, 3, 2]
+```
+
+The next permutation after `[1, 2, 3]` is `[1, 3, 2]`.
+
+### 💡 Approach — Finding the Breakpoint
+
+We can find the next permutation in-place using three main steps.
+
+1. **Find the breakpoint:** Traverse the array from right to left and find the first index `i` where `nums[i] < nums[i + 1]`. This identifies the position that can be increased to obtain the next permutation.
+
+2. **Find the next greater element:** If a breakpoint exists, traverse from the right and find the first element greater than `nums[i]`. Swap these two elements. Because the suffix is in descending order, this element is the smallest available element greater than the breakpoint value.
+
+3. **Reverse the suffix:** Reverse the elements after index `i` to arrange them in ascending order, producing the smallest possible suffix.
+
+4. **Handle the largest permutation:** If no breakpoint exists, the array is in descending order and represents the largest permutation. Reverse the entire array to obtain the smallest permutation.
+
+### 🧠 Key Pattern
+
+**Greedy Approach + Two Pointers + In-place Reversal**
+
+The key observation is to change the rightmost possible element to a slightly greater value and then make the remaining suffix as small as possible.
+
+### ⏱️ Complexity
+
+**Time Complexity:** `O(n)` — Finding the breakpoint, swapping elements, and reversing the suffix each take linear time.
+
+**Space Complexity:** `O(1)` — The array is modified in-place without using an extra array.
+
+
+##Solution
+
+
+class Solution {
+    public void nextPermutation(int[] nums) {
+         int ind=-1;
+        for(int i=nums.length-2;i>=0;i--)
+        {
+            if(nums[i]<nums[i+1])
+            {
+                ind=i;
+                break;
+            }
+        }
+        if(ind==-1)
+       {
+        reverse(nums,0,nums.length-1);
+        return;
+       }
+        for(int i=nums.length-1;i>ind;i--)
+        {
+            if(nums[i]>nums[ind])
+            {
+               swap(nums,i,ind);
+                break;
+            }
+
+        }
+       reverse(nums,ind+1,nums.length-1);
+}
+public static void swap(int[] arr,int i,int j)
+{
+    int temp=arr[i];
+    arr[i]=arr[j];
+    arr[j]=temp;
+}
+public static void reverse(int[] arr,int i,int j)
+{
+    while(i<j)
+    {
+        swap(arr,i,j);
+        i++;
+        j--;
+    }
+}
+}
