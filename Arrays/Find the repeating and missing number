@@ -1,0 +1,83 @@
+### 🔍 Find the Repeating and Missing Number
+
+The goal is to find two numbers in an array of size `n` containing numbers from `1` to `n`, where one number appears twice and another number is missing.
+
+For example:
+
+**Input:**
+```text
+arr = [3, 1, 2, 5, 3]
+```
+
+**Output:**
+```text
+[3, 4]
+```
+
+Here, `3` is the repeating number, and `4` is the missing number.
+
+### 💡 Approach — Mathematical Equations
+
+We can solve this problem using the sum of elements and the sum of their squares.
+
+1. **Calculate the expected sum:** Find the sum of numbers from `1` to `n` using `n * (n + 1) / 2`.
+2. **Calculate the expected sum of squares:** Find the sum of squares from `1` to `n` using `n * (n + 1) * (2 * n + 1) / 6`.
+3. **Find the differences:** Subtract the actual array sum and actual sum of squares from their expected values.
+4. **Form equations:** Let `x` be the repeating number and `y` be the missing number. Use the differences to obtain:
+   - `x - y` from the sum difference.
+   - `x² - y²` from the squared-sum difference.
+5. **Solve for both numbers:** Since `x² - y² = (x - y)(x + y)`, calculate `x + y` and use it with `x - y` to determine the repeating and missing numbers.
+6. Return the repeating number and missing number in the required order.
+
+### 🧠 Key Pattern
+
+**Mathematical Equations + Sum and Sum of Squares**
+
+The key observation is that the difference between the expected and actual sums reveals the relationship between the repeating and missing numbers. The sum of squares provides a second equation to determine both values.
+
+### ⏱️ Complexity
+
+**Time Complexity:** `O(n)` — The array is traversed a constant number of times.
+
+**Space Complexity:** `O(1)` — Only a constant number of variables are used.
+
+**Note:** Use a sufficiently wide integer type, such as `long` in Java, for sum-of-squares calculations to avoid integer overflow.
+
+##Solution
+
+class Solution {
+    public int[] findMissingRepeatingNumbers(int[] nums) {
+       long n = nums.length;
+        
+        // Find expected sum and sum of squares of first N numbers
+        long expectedSum = (n * (n + 1)) / 2;
+        long expectedSumSq = (n * (n + 1) * (2 * n + 1)) / 6;
+        
+        long actualSum = 0;
+        long actualSumSq = 0;
+        
+        // Calculate actual sum and sum of squares from the array
+        for (int num : nums) {
+            actualSum += num;
+            actualSumSq += (long) num * num;
+        }
+        
+        // Eq 1: Repeating - Missing
+        long val1 = actualSum - expectedSum; // X - Y
+        
+        // Eq 2: Repeating^2 - Missing^2
+        long val2 = actualSumSq - expectedSumSq; // X^2 - Y^2
+        
+        // Since X^2 - Y^2 = (X - Y)(X + Y), we can find (X + Y)
+        long val3 = val2 / val1; // X + Y
+        
+        // Solving the two linear equations:
+        // X = ((X - Y) + (X + Y)) / 2
+        int repeating = (int) ((val1 + val3) / 2);
+        // Y = (X + Y) - X
+        int missing = (int) (val3 - repeating);
+        
+        return new int[]{repeating, missing};
+    }
+
+}
