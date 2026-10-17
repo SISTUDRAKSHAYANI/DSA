@@ -1,0 +1,107 @@
+# 🔢 Count Inversions
+
+## 📌 Problem Statement
+Given an array of integers, count the number of inversions in the array.
+
+An inversion is a pair of indices `(i, j)` such that:
+- `i < j`
+- `arr[i] > arr[j]`
+
+In simple words, an inversion occurs when a larger element appears before a smaller element.
+
+### 🧪 Example
+**Input:** `arr = [5, 3, 2, 4, 1]`
+
+**Output:** `8`
+
+**Explanation:** The inversion pairs are:
+`(5,3), (5,2), (5,4), (5,1), (3,2), (3,1), (2,1), (4,1)`
+
+Therefore, the total number of inversions is `8`.
+
+## 💡 Approach — Modified Merge Sort
+1. Divide the array into two halves recursively.
+2. Count inversions in the left half and right half.
+3. During the merge step, count **cross-inversions** between the two halves.
+4. If `arr[i] > arr[j]`, where `i` belongs to the left half and `j` belongs to the right half, then all remaining elements in the left half are also greater than `arr[j]` because both halves are sorted.
+5. Add `mid - i + 1` to the inversion count.
+6. Merge the two sorted halves and return the total count.
+
+## 🔑 Key Pattern
+**Divide and Conquer + Modified Merge Sort**
+
+The important observation is that when merging sorted halves, one comparison can help count multiple inversions at once.
+
+## ⏱️ Complexity Analysis
+- **Time Complexity:** `O(n log n)`
+- **Auxiliary Space:** `O(n)` for the temporary array and merge process.
+
+## 📝 Important Note
+A brute-force approach checks every pair and takes `O(n²)` time. Modified Merge Sort improves this to `O(n log n)`, making it suitable for larger arrays.
+
+##Solution
+
+import java.util.Arrays;
+
+class Solution {
+    public long numberOfInversions(int[] nums) {
+        // Create a copy of the input array to avoid modifying the original data
+        int[] arr = nums.clone();
+        int[] temp = new int[arr.length];
+        
+        return mergeSortAndCount(arr, temp, 0, arr.length - 1);
+    }
+
+    private long mergeSortAndCount(int[] arr, int[] temp, int left, int right) {
+        long count = 0;
+        if (left < right) {
+            int mid = left + (right - left) / 2;
+
+            // 1. Count inversions in the left half
+            count += mergeSortAndCount(arr, temp, left, mid);
+
+            // 2. Count inversions in the right half
+            count += mergeSortAndCount(arr, temp, mid + 1, right);
+
+            // 3. Count split inversions during the merge step
+            count += mergeAndCount(arr, temp, left, mid, right);
+        }
+        return count;
+    }
+
+    private long mergeAndCount(int[] arr, int[] temp, int left, int mid, int right) {
+        int i = left;    // Index for left subarray
+        int j = mid + 1; // Index for right subarray
+        int k = left;    // Index for temp array
+        long inversions = 0;
+
+        while (i <= mid && j <= right) {
+            if (arr[i] <= arr[j]) {
+                temp[k++] = arr[i++];
+            } else {
+                temp[k++] = arr[j++];
+                // If arr[i] > arr[j], then all remaining items in the left subarray
+                // (from index i to mid) are also greater than arr[j].
+                inversions += (mid - i + 1);
+            }
+        }
+
+        // Copy any remaining elements from the left side
+        while (i <= mid) {
+            temp[k++] = arr[i++];
+        }
+
+        // Copy any remaining elements from the right side
+        while (j <= right) {
+            temp[k++] = arr[j++];
+        }
+
+        // Copy the sorted elements back into the array fragment
+        for (i = left; i <= right; i++) {
+            arr[i] = temp[i];
+        }
+
+        return inversions;
+    }
+}
+
