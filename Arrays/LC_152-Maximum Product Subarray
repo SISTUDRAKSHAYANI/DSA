@@ -1,0 +1,58 @@
+# 🔢 Maximum Product Subarray
+
+## 📌 Problem Statement
+Given an integer array `nums`, find the contiguous subarray that has the largest product and return that product.
+
+A subarray must contain consecutive elements and have at least one element.
+
+### 🧪 Example
+**Input:** `nums = [2, 3, -2, 4]`
+
+**Output:** `6`
+
+**Explanation:** The subarray `[2, 3]` has the maximum product.
+
+Product = `2 × 3 = 6`
+
+## 💡 Approach — Prefix and Suffix Products
+1. Initialize `prefix` and `suffix` products to `1`.
+2. Traverse the array from both directions:
+   - Multiply the current element into the prefix product.
+   - Multiply the corresponding element from the end into the suffix product.
+3. Update the maximum product using the prefix and suffix products at each step.
+4. If either product becomes `0`, reset it to `1` so that the next subarray can start after the zero.
+5. Return the maximum product found.
+
+## 🔑 Key Pattern
+**Prefix and Suffix Products + Handling Negative Numbers**
+
+Negative numbers can change the sign of a product. A subarray containing two negative numbers may produce a positive maximum product. Traversing from both directions helps account for these possibilities, while resetting at zero handles subarrays separated by zeros.
+
+## ⏱️ Complexity Analysis
+- **Time Complexity:** `O(n)` — the array is traversed once.
+- **Auxiliary Space:** `O(1)` — only a few variables are used.
+
+## 📝 Important Note
+Unlike the Maximum Subarray Sum problem, where Kadane's algorithm tracks the running sum, the Maximum Product Subarray problem must account for negative numbers and zeros. Prefix and suffix products provide an efficient solution without storing extra arrays.
+
+
+##Solution
+
+class Solution {
+    public int maxProduct(int[] nums) {
+        int n=nums.length;
+        int pre=1;
+        int suff=1;
+        int ans=Integer.MIN_VALUE;
+        for(int i=0;i<n;i++)
+        {
+            if(pre==0) pre=1;
+            if(suff==0) suff=1;
+            pre*=nums[i];
+            suff*=nums[n-i-1];
+            ans=Math.max(ans,Math.max(pre,suff));
+        }
+        return ans;
+    }
+}
+
