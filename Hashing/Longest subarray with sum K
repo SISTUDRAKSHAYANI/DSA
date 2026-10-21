@@ -1,0 +1,56 @@
+### Longest Subarray with Sum K
+
+**Problem:** Given an array `nums` of size `n` and an integer `k`, find the length of the longest contiguous subarray whose sum is equal to `k`. If no such subarray exists, return `0`.
+
+**Approach:**
+- Use a HashMap to store prefix sums and their earliest indices.
+- Maintain a running prefix sum while traversing the array.
+- If the prefix sum equals `k`, update the maximum length.
+- If `prefixSum - k` exists in the HashMap, a subarray with sum `k` is found. Update the maximum length using the stored index.
+- Store each prefix sum's earliest index to maximize the subarray length.
+
+**Example:**
+- Input: `nums = [10, 5, 2, 7, 1, 9], k = 15`
+- Output: `4`
+- Explanation: The subarray `[5, 2, 7, 1]` has a sum of `15` and length `4`.
+
+**Complexity Analysis:**
+- **Time Complexity:** `O(n)` — traversing the array once with HashMap operations.
+- **Space Complexity:** `O(n)` — storing prefix sums and their earliest indices.
+
+**Key Concept:** Prefix Sum + Hashing
+
+###Solution
+
+import java.util.HashMap;
+
+class Solution {
+    public int longestSubarray(int[] nums, int k) {
+        // Map to store (prefixSum -> first_occurrence_index)
+        HashMap<Integer, Integer> map = new HashMap<>();
+        int maxLen = 0;
+        int currentSum = 0;
+
+        for (int i = 0; i < nums.length; i++) {
+            currentSum += nums[i];
+
+            // Case 1: The subarray from the very beginning sums to k
+            if (currentSum == k) {
+                maxLen = i + 1;
+            }
+
+            // Case 2: Check if there is a prefix subarray we can remove
+            int remainingSum = currentSum - k;
+            if (map.containsKey(remainingSum)) {
+                maxLen = Math.max(maxLen, i - map.get(remainingSum));
+            }
+
+            // Case 3: Only store the sum if it hasn't been seen before.
+            // Keeping the earliest index maximizes the subarray length.
+            if (!map.containsKey(currentSum)) {
+                map.put(currentSum, i);
+            }
+        }
+        return maxLen;
+    }
+}
