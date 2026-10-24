@@ -1,0 +1,59 @@
+### Count Subarrays with Given XOR K
+
+**Problem:** Given an integer array `nums` and an integer `k`, find the total number of contiguous subarrays whose bitwise XOR is equal to `k`.
+
+**Approach:**
+- Use a HashMap to store prefix XOR values and their frequencies.
+- Maintain a running prefix XOR while traversing the array.
+- For each element, calculate `prefixXOR ^ k` to find the prefix XOR needed to form a subarray with XOR equal to `k`.
+- If this value exists in the HashMap, add its frequency to the answer.
+- Update the frequency of the current prefix XOR in the HashMap.
+- Initialize the HashMap with `{0: 1}` to handle subarrays starting at index `0`.
+
+**Example:**
+- Input: `nums = [4, 2, 2, 6, 4], k = 6`
+- Output: `4`
+- Explanation: The subarrays `[4, 2]`, `[4, 2, 2, 6, 4]`, `[2, 2, 6]`, and `[6]` have an XOR equal to `6`.
+
+**Complexity Analysis:**
+- **Time Complexity:** `O(n)` — traversing the array once with average constant-time HashMap operations.
+- **Space Complexity:** `O(n)` — storing prefix XOR values and their frequencies.
+
+**Key Concept:** Prefix XOR + Hashing
+
+  ###Solution
+
+  import java.util.HashMap;
+import java.util.Map;
+
+class Solution {
+    public int subarraysWithXorK(int[] nums, int k) {
+        int count = 0;
+        int currentXor = 0;
+        
+        // HashMap to store the frequency of prefix XOR values
+        Map<Integer, Integer> prefixXorMap = new HashMap<>();
+        
+        // Base case: a prefix XOR of 0 has occurred once before parsing elements
+        prefixXorMap.put(0, 1);
+        
+        for (int num : nums) {
+            // Update the running prefix XOR
+            currentXor ^= num;
+            
+            // By XOR mathematical properties: 
+            // If (currentXor ^ targetXor) == target, then currentXor ^ target == targetXor
+            int targetXor = currentXor ^ k;
+            
+            // If the required target prefix XOR exists, add its frequency to our count
+            if (prefixXorMap.containsKey(targetXor)) {
+                count += prefixXorMap.get(targetXor);
+            }
+            
+            // Record the current prefix XOR in the map
+            prefixXorMap.put(currentXor, prefixXorMap.getOrDefault(currentXor, 0) + 1);
+        }
+        
+        return count;
+    }
+}
