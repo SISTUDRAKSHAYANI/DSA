@@ -1,0 +1,48 @@
+## Selection Sort
+
+### 📌 Problem Description
+Implement the Selection Sort algorithm to sort an array of integers in ascending order.
+
+### 💡 Approach
+1. Start from the first index of the array.
+2. Find the index of the minimum element in the unsorted portion of the array.
+3. Swap the minimum element with the element at the current index.
+4. Move to the next index and repeat the process until the entire array is sorted.
+
+### ⏱️ Complexity Analysis
+- **Time Complexity:** O(n²) in the best, average, and worst cases.
+- **Space Complexity:** O(1), as sorting is performed in place.
+
+### 🛠️ Language
+Java
+
+###Solution
+
+class Solution {
+    public int[] selectionSort(int[] nums) {
+        // Handle edge case
+        if (nums == null || nums.length <= 1) {
+            return nums;
+        }
+        
+        int n = nums.length;
+        
+        // One by one move the boundary of the unsorted subarray
+        for (int i = 0; i < n - 1; i++) {
+            // Find the minimum element in the unsorted array
+            int minIdx = i;
+            for (int j = i + 1; j < n; j++) {
+                if (nums[j] < nums[minIdx]) {
+                    minIdx = j;
+                }
+            }
+            
+            // Swap the found minimum element with the first element of the unsorted part
+            int temp = nums[minIdx];
+            nums[minIdx] = nums[i];
+            nums[i] = temp;
+        }
+        
+        return nums;
+    }
+}
