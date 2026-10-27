@@ -1,0 +1,43 @@
+## Bubble Sort
+
+### 📌 Problem Description
+Implement the Bubble Sort algorithm to sort an array of integers in ascending order by repeatedly comparing adjacent elements and swapping them if they are in the wrong order.
+
+### 💡 Approach
+1. Start from the first element of the array.
+2. Compare each pair of adjacent elements.
+3. Swap them if the current element is greater than the next element.
+4. After each pass, the largest unsorted element moves to its correct position at the end of the array.
+5. Repeat the process until the array is sorted or no swaps are needed.
+
+### ⏱️ Complexity Analysis
+- **Best Case:** O(n) — when the array is already sorted and an optimized implementation detects no swaps.
+- **Average Case:** O(n²)
+- **Worst Case:** O(n²)
+- **Space Complexity:** O(1) — sorting is performed in place.
+
+### 🛠️ Language
+Java
+
+###Solution
+
+class Solution {
+    public int[] bubbleSort(int[] nums) {
+        for(int i=0;i<nums.length;i++)
+        {
+            boolean swapped=false;
+            for(int j=0;j<nums.length-1-i;j++)
+            {
+                if(nums[j]>nums[j+1])
+                {
+                    int temp=nums[j];
+                    nums[j]=nums[j+1];
+                    nums[j+1]=temp;
+                    swapped=true;
+                }
+            }
+            if(!swapped) break;
+        }
+        return nums;
+    }
+}                                                                             
