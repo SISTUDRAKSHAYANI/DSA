@@ -1,0 +1,43 @@
+## Insertion Sort
+
+### 📌 Problem Description
+Implement the Insertion Sort algorithm to sort an array of integers in ascending order by building a sorted portion of the array one element at a time.
+
+### 💡 Approach
+1. Start from the second element of the array, considering the first element as already sorted.
+2. Store the current element as the `key`.
+3. Compare the key with the elements in the sorted portion, moving from right to left.
+4. Shift all elements greater than the key one position to the right.
+5. Insert the key into its correct position.
+6. Repeat until the entire array is sorted.
+
+### ⏱️ Complexity Analysis
+- **Best Case:** O(n) — when the array is already sorted.
+- **Average Case:** O(n²)
+- **Worst Case:** O(n²) — when the array is sorted in reverse order.
+- **Space Complexity:** O(1) — sorting is performed in place.
+
+### 🛠️ Language
+Java
+
+###Solution
+
+class Solution {
+    public int[] insertionSort(int[] nums) {
+        // Iterate from the second element up to the end of the array
+        for (int i = 1; i < nums.length; i++) {
+            int key = nums[i];
+            int j = i - 1;
+
+            // Shift elements of nums[0..i-1] that are greater than key
+            // to one position ahead of their current position
+            while (j >= 0 && nums[j] > key) {
+                nums[j + 1] = nums[j];
+                j--;
+            }
+            // Place the key at its correct sorted position
+            nums[j + 1] = key;
+        }
+        return nums;
+    }
+}
