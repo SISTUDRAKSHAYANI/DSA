@@ -1,0 +1,70 @@
+## Quick Sort
+
+### 📌 Problem Description
+Implement the Quick Sort algorithm to sort an array of integers in ascending order using the **divide-and-conquer** technique. The algorithm selects a pivot element, partitions the array around the pivot, and recursively sorts the resulting subarrays.
+
+### 💡 Approach
+1. Choose an element from the array as the pivot.
+2. Partition the array by placing elements smaller than the pivot on its left and elements greater than the pivot on its right.
+3. Place the pivot in its correct sorted position.
+4. Recursively apply Quick Sort to the left and right subarrays.
+5. Repeat the process until the entire array is sorted.
+
+### ⏱️ Complexity Analysis
+- **Best Case:** O(n log n) — when the pivot divides the array into nearly equal partitions.
+- **Average Case:** O(n log n)
+- **Worst Case:** O(n²) — when the pivot repeatedly creates highly unbalanced partitions.
+- **Space Complexity:** O(log n) on average for recursion stack space; O(n) in the worst case.
+
+### 🛠️ Language
+Java
+
+### 🎯 Key Concept
+Quick Sort follows the **divide-and-conquer** approach and uses partitioning to arrange elements around a selected pivot.
+
+###Solution
+
+class Solution {
+    public int[] quickSort(int[] nums) {
+        if (nums == null || nums.length <= 1) {
+            return nums;
+        }
+        performQuickSort(nums, 0, nums.length - 1);
+        return nums;
+    }
+
+    private void performQuickSort(int[] nums, int low, int high) {
+        if (low < high) {
+            // Partition the array and get the pivot index
+            int pivotIndex = partition(nums, low, high);
+
+            // Recursively sort elements before and after partition
+            performQuickSort(nums, low, pivotIndex - 1);
+            performQuickSort(nums, pivotIndex + 1, high);
+        }
+    }
+
+    private int partition(int[] nums, int low, int high) {
+        // Choose the last element as the pivot
+        int pivot = nums[high];
+        int i = low - 1; // Index of smaller element
+
+        for (int j = low; j < high; j++) {
+            // If current element is smaller than or equal to the pivot
+            if (nums[j] <= pivot) {
+                i++;
+                // Swap nums[i] and nums[j]
+                int temp = nums[i];
+                nums[i] = nums[j];
+                nums[j] = temp;
+            }
+        }
+
+        // Swap the pivot element with the element at i + 1
+        int temp = nums[i + 1];
+        nums[i + 1] = nums[high];
+        nums[high] = temp;
+
+        return i + 1;
+    }
+}
