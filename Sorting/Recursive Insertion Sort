@@ -1,0 +1,67 @@
+## Recursive Insertion Sort
+
+### 📌 Problem Description
+Implement the Insertion Sort algorithm using recursion to sort an array of integers in ascending order. The algorithm recursively sorts smaller portions of the array and inserts each element into its correct position.
+
+### 💡 Approach
+1. Consider the first element as a sorted portion.
+2. Recursively sort the remaining elements of the array.
+3. Take the last element of the sorted portion as the `key`.
+4. Compare the key with the elements before it.
+5. Shift all elements greater than the key one position to the right.
+6. Insert the key into its correct position.
+7. Repeat until the entire array is sorted.
+
+### ⏱️ Complexity Analysis
+- **Best Case:** O(n²) for the standard recursive implementation.
+- **Average Case:** O(n²)
+- **Worst Case:** O(n²)
+- **Space Complexity:** O(n) due to recursive call stack space.
+
+### 🛠️ Language
+Java
+
+### 🎯 Key Concept
+Recursive Insertion Sort demonstrates how recursion can replace the outer loop of the iterative Insertion Sort algorithm while maintaining the same sorting logic.
+
+###Solution
+
+class Solution {
+    public int[] insertionSort(int[] nums) {
+        // Start sorting the entire array from the last index (nums.length)
+        sortRecursive(nums, nums.length);
+        return nums;
+    }
+
+    // Outer recursion: Sorts the array up to index n
+    private void sortRecursive(int[] nums, int n) {
+        // Base case: An array of size 1 or less is already sorted
+        if (n <= 1) {
+            return;
+        }
+
+        // Sort first n-1 elements
+        sortRecursive(nums, n - 1);
+
+        // Store the last element to be inserted into the sorted part
+        int last = nums[n - 1];
+        
+        // Use an inner recursive helper to find its correct spot and shift elements
+        insertRecursive(nums, n - 2, last);
+    }
+
+    // Inner recursion: Replaces the while loop to shift elements and insert 'last'
+    private void insertRecursive(int[] nums, int i, int last) {
+        // Base case: If we reach the beginning of the array or find an element <= last
+        if (i < 0 || nums[i] <= last) {
+            nums[i + 1] = last;
+            return;
+        }
+
+        // Shift the larger element one position to the right
+        nums[i + 1] = nums[i];
+
+        // Recurse for the next element on the left
+        insertRecursive(nums, i - 1, last);
+    }
+}
