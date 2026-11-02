@@ -1,0 +1,43 @@
+### Remove Outermost Parentheses
+
+**Problem:** Given a valid parentheses string, remove the outermost parentheses of every primitive substring and return the resulting string.
+
+**Approach:**
+- Traverse the string character by character.
+- Maintain a `count` variable to track the current parentheses depth.
+- If the character is `(`, append it only when the count is greater than 0, then increment the count.
+- If the character is `)`, decrement the count first and append it only when the count is greater than 0.
+- This removes the outermost opening and closing parentheses of each primitive substring.
+
+**Time Complexity:** O(n) – We traverse the string once.
+
+**Space Complexity:** O(n) – To store the resulting string.
+
+**Concepts Used:**
+- String Traversal
+- Stack / Balance Counting
+- StringBuilder
+- Parentheses Manipulation
+
+###Solution
+
+class Solution {
+    public String removeOuterParentheses(String s) {
+        StringBuilder ans = new StringBuilder();
+        int count=0;
+        for(char ch : s.toCharArray())
+        {
+            if(ch=='(')
+            {
+                if(count > 0) ans.append("(");//if count is 0 then it won't append 0-->1
+                count++;
+            }
+            else if(ch==')')
+            {
+                count--;
+                if(count>0) ans.append(")");//if count is 0 then it won't append 1-->0
+            }
+        }
+        return ans.toString();
+    }
+}
