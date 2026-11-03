@@ -1,0 +1,41 @@
+### Maximum Nesting Depth of the Parentheses
+
+**Problem:** Given a valid parentheses string, find the maximum number of nested parentheses present in the string.
+
+**Approach:**
+- Initialize two variables: `count` to track the current nesting depth and `maxDepth` to store the maximum depth.
+- Traverse the string character by character.
+- If the character is `(`, increment the count.
+- Update `maxDepth` whenever the current count exceeds the previous maximum.
+- If the character is `)`, decrement the count.
+- Return `maxDepth` as the maximum nesting depth.
+
+**Time Complexity:** O(n) – We traverse the string once.
+
+**Space Complexity:** O(1) – Only a constant amount of extra space is used.
+
+**Concepts Used:**
+- String Traversal
+- Parentheses Matching
+- Depth Counting
+- Maximum Tracking
+
+###Solution
+
+class Solution {
+    public int maxDepth(String s) {
+        int count=0;
+        int max=0;
+        for(int i=0;i<s.length();i++)
+        {
+            if(s.charAt(i)=='(') 
+            {
+                count++;
+                max=Math.max(count,max);
+            }
+            else if(s.charAt(i)==')') count--;
+            
+        }
+        return max;
+    }
+}
