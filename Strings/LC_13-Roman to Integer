@@ -1,0 +1,51 @@
+### Roman to Integer
+
+**Problem:** Given a Roman numeral string, convert it into its corresponding integer value.
+
+**Approach:**
+- Store the integer values of Roman symbols using a HashMap.
+- Traverse the string character by character.
+- Get the value of the current Roman character.
+- If the current character's value is smaller than the next character's value, subtract it from the result.
+- Otherwise, add its value to the result.
+- Continue until the entire string is traversed.
+- Return the final integer value.
+
+**Time Complexity:** O(n) – We traverse the string once.
+
+**Space Complexity:** O(1) – The HashMap contains a fixed number of Roman numeral symbols.
+
+**Concepts Used:**
+- String Traversal
+- HashMap
+- Conditional Statements
+- Greedy Approach
+- Roman Numeral Conversion
+
+###Solution
+
+class Solution {
+    public int romanToInt(String s) {
+        int count = 0;
+        int n = s.length();
+        
+        for (int i = 0; i < n; i++) {
+            int current = value(s.charAt(i));
+            
+            // If the current value is less than the next value, subtract it
+            if (i + 1 < n && current < value(s.charAt(i + 1))) {
+                count -= current;
+            } else {
+                count += current;
+            }
+        }
+        return count;
+    }
+
+    public static int value(char c) {
+        return switch(c) {
+            case 'I' -> 1; case 'V' -> 5; case 'X' -> 10; case 'L' -> 50;
+            case 'C' -> 100; case 'D' -> 500; case 'M' -> 1000; default -> 0;
+        };
+    }
+}
