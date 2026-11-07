@@ -1,0 +1,55 @@
+### Sum of Beauty of All Substrings
+
+**Problem:** Given a string, calculate the sum of beauty values of all its substrings. The beauty of a substring is defined as the difference between the frequency of the most frequent character and the frequency of the least frequent character (excluding characters that do not appear).
+
+**Approach:**
+- Initialize a variable `sum` to store the total beauty of all substrings.
+- Traverse the string using an outer loop to select the starting index of each substring.
+- Create a frequency array of size 26 to track the occurrences of each character.
+- Use an inner loop to extend the substring from the starting index.
+- Update the frequency of the current character.
+- Find the maximum and minimum frequencies among the characters present in the current substring.
+- Calculate the beauty by subtracting the minimum frequency from the maximum frequency.
+- Add the beauty value to the total sum.
+- Return the final sum.
+
+**Time Complexity:** O(n² × 26) – We generate all substrings and calculate the maximum and minimum character frequencies.
+
+**Space Complexity:** O(26) = O(1) – A fixed-size frequency array is used.
+
+**Concepts Used:**
+- String Traversal
+- Nested Loops
+- Frequency Counting
+- Hashing
+- Character Frequency Array
+- Substring Manipulation
+
+###Solution
+
+
+class Solution {
+    public int beautySum(String s) {
+        int n = s.length();
+        int sum = 0;
+        for (int i = 0; i < n; i++) {
+            int[] freq = new int[26];
+            int max = 0;
+            for (int j = i; j < n; j++) {
+                int index=s.charAt(j)-'a';
+                freq[index]++;
+                max=Math.max(max,freq[index]);
+                
+                int min = Integer.MAX_VALUE;
+                for (int k = 0; k < 26; k++) {
+                    if (freq[k] > 0) {
+                        min = Math.min(min, freq[k]);
+                    }
+                }
+                sum += (max - min);
+            }
+        }
+
+        return sum;
+    }
+}
