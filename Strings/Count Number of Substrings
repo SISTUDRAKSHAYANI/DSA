@@ -1,0 +1,66 @@
+### Count Number of Substrings
+
+**Problem:** Given a string containing lowercase English letters from `'a'` to `'j'`, count the total number of non-empty substrings in which at most one character occurs an odd number of times.
+
+**Approach:**
+- Use a bitmask to track the parity (odd or even frequency) of each character.
+- Traverse the string character by character.
+- Toggle the corresponding bit whenever a character is encountered.
+- Maintain a HashMap to store the frequency of previously encountered prefix masks.
+- For each prefix mask:
+  - Count previous prefixes with the same mask (all character frequencies are even).
+  - Check masks obtained by toggling each of the 10 bits individually (exactly one character has an odd frequency).
+- Add these frequencies to the answer.
+- Update the frequency of the current prefix mask in the HashMap.
+- Return the total count of valid substrings.
+
+**Time Complexity:** O(10 × n) = O(n) – For every character, we check the current mask and 10 possible bit toggles.
+
+**Space Complexity:** O(2¹⁰) = O(1) – At most 1024 different parity masks can exist.
+
+**Concepts Used:**
+- String Traversal
+- Bit Manipulation
+- Bitmasking
+- XOR Operations
+- Prefix XOR
+- HashMap
+- Frequency Counting
+
+###Solution
+
+class Solution {
+    public long countSubstrings(String s) {
+        long totalValidSubstrings = 0;
+        
+        // Frequency array to store occurrences of each mask prefix
+        // Since there are only 10 characters ('a' to 'j'), max mask value is 2^10 - 1 = 1023
+        int[] maskCounts = new int[1024];
+        
+        // Base case: an empty prefix has a mask of 0
+        maskCounts[0] = 1;
+        
+        int currentMask = 0;
+        
+        for (int i = 0; i < s.length(); i++) {
+            // Update the mask for the current character
+            int charIndex = s.charAt(i) - 'a';
+            currentMask ^= (1 << charIndex);
+            
+            // Case 1: All characters appear an even number of times (currentMask ^ targetMask == 0)
+            totalValidSubstrings += maskCounts[currentMask];
+            
+            // Case 2: Exactly one character appears an odd number of times
+            // Check all 10 possible positions ('a' through 'j')
+            for (int k = 0; k < 10; k++) {
+                int targetMask = currentMask ^ (1 << k);
+                totalValidSubstrings += maskCounts[targetMask];
+            }
+            
+            // Record the current prefix mask state
+            maskCounts[currentMask]++;
+        }
+        
+        return totalValidSubstrings;
+    }
+}
