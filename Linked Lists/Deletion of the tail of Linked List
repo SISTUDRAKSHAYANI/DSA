@@ -1,0 +1,47 @@
+### Deletion of the Tail of a Linked List
+
+**Problem:** Given the head of a singly linked list, delete the last node (tail) of the linked list and return the head of the modified linked list.
+
+**Approach:**
+
+- Check if the linked list is empty (`head == null`). If so, return `null`.
+- If the linked list contains only one node (`head.next == null`), delete it by returning `null`.
+- Initialize a temporary pointer with the head node.
+- Traverse the linked list until reaching the second-last node (`temp.next.next == null`).
+- Set the next reference of the second-last node to `null` (`temp.next = null`).
+- This removes the last node from the linked list.
+- Return the original head.
+
+**Time Complexity:** O(n) – In the worst case, we traverse the linked list to reach the second-last node.
+
+**Space Complexity:** O(1) – Only a temporary pointer is used.
+
+**Concepts Used:**
+- Singly Linked List
+- Head Pointer
+- Temporary Pointer
+- Node Deletion
+- Pointer Traversal
+- Null Checking
+
+###Solution
+
+class Solution {
+    public ListNode deleteTail(ListNode head) {
+        // Edge case: If the list is empty or has only one node, return null
+        if (head == null || head.next == null) {
+            return null;
+        }
+
+        // Traverse to the second-to-last node
+        ListNode current = head;
+        while (current.next.next != null) {
+            current = current.next;
+        }
+
+        // Disconnect the last node
+        current.next = null;
+
+        return head;
+    }
+}
