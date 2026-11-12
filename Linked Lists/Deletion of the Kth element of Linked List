@@ -1,0 +1,60 @@
+### Deletion of the Kth Element of a Linked List
+
+**Problem:** Given the head of a singly linked list and an integer `k`, delete the Kth node from the linked list and return the head of the modified linked list.
+
+**Approach:**
+
+- Check if the linked list is empty (`head == null`). If so, return `null`.
+- If `k == 1`, delete the head node by updating `head = head.next`.
+- Otherwise, initialize a temporary pointer with the head node.
+- Traverse the linked list until reaching the `(k-1)th` node.
+- Update the next reference of the previous node to skip the Kth node (`temp.next = temp.next.next`).
+- This removes the Kth node from the linked list.
+- Return the updated head.
+
+**Time Complexity:** O(n) – In the worst case, we traverse the linked list to reach the Kth node.
+
+**Space Complexity:** O(1) – Only a temporary pointer is used.
+
+**Concepts Used:**
+- Singly Linked List
+- Kth Node Deletion
+- Head Pointer
+- Temporary Pointer
+- Pointer Manipulation
+- Node Linking
+- Null Checking
+
+
+###Solution
+
+class Solution {
+    public ListNode deleteKthNode(ListNode head, int k) {
+        // Case 1: If the list is empty
+        if (head == null) {
+            return null;
+        }
+
+        // Case 2: Deleting the 1st node (head)
+        if (k == 1) {
+            return head.next;
+        }
+
+        // Case 3: Deleting any node after the 1st
+        ListNode current = head;
+        int count = 1;
+
+        // Traverse to the (k - 1)th node
+        while (current != null && count < k - 1) {
+            current = current.next;
+            count++;
+        }
+
+        // If the kth node exists, bypass it
+        if (current != null && current.next != null) {
+            current.next = current.next.next;
+        }
+
+        return head;
+    }
+}
