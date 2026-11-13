@@ -1,0 +1,54 @@
+Delete the Element with Value X in a Linked List
+
+Problem: Given the head of a singly linked list and an integer "X", delete the node containing the value "X" and return the head of the modified linked list.
+
+Approach:
+
+- Check if the linked list is empty ("head == null"). If so, return "null".
+- If the head node contains the value "X", delete it by updating "head = head.next".
+- Otherwise, initialize a temporary pointer with the head node.
+- Traverse the linked list until finding the node whose next node contains the value "X", or reaching the end.
+- If the node is found, update its next reference to skip the node containing "X" ("temp.next = temp.next.next").
+- If the value "X" is not present, leave the linked list unchanged.
+- Return the updated head.
+
+Time Complexity: O(n) – In the worst case, all nodes are traversed to find the value X.
+
+Space Complexity: O(1) – Only a temporary pointer is used.
+
+Concepts Used:
+
+- Singly Linked List
+- Node Deletion
+- Head Pointer
+- Temporary Pointer
+- Searching
+- Pointer Manipulation
+- Node Linking
+- Null Checking
+
+  ###Solution
+
+  class Solution {
+    public ListNode deleteNodeWithValueX(ListNode head, int X) {
+        // Create a dummy node pointing to the head
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        
+        ListNode current = dummy;
+        
+        // Traverse the list until the end
+        while (current.next != null) {
+            if (current.next.data == X) {
+                // Skip the node with value X
+                current.next = current.next.next;
+                // Break if only a single node with value X needs to be deleted
+                break; 
+            }
+            current = current.next;
+        }
+        
+        // Return the updated head
+        return dummy.next;
+    }
+}
