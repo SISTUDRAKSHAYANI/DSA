@@ -1,0 +1,33 @@
+Insertion at the Head of a Linked List
+
+Problem: Given the head of a singly linked list and an integer "X", insert a new node with value "X" at the beginning (head) of the linked list and return the head of the modified linked list.
+
+Approach:
+
+- Create a new node with the given value "X".
+- Set the next reference of the new node to the current head ("newNode.next = head").
+- Update the head to point to the newly created node ("head = newNode").
+- The new node becomes the first node of the linked list.
+- Return the updated head.
+- If the linked list is empty, the new node becomes the only node.
+
+Time Complexity: O(1) – A new node is created and inserted at the beginning without traversing the linked list.
+
+Space Complexity: O(1) – Only one new node is created.
+
+Concepts Used:
+
+- Singly Linked List
+- Node Insertion
+- Head Pointer
+- New Node Creation
+- Reference Manipulation
+- Node Linking
+
+###Solution
+
+class Solution {
+    public ListNode insertAtHead(ListNode head, int X) {
+        return new ListNode(X, head);
+    }
+}
