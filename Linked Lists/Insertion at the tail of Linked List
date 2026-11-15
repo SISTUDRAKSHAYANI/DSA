@@ -1,0 +1,50 @@
+### Insertion at the Tail of a Linked List
+
+**Problem:** Given the head of a singly linked list and an integer `X`, insert a new node with value `X` at the end (tail) of the linked list and return the head of the modified linked list.
+
+**Approach:**
+
+- Create a new node with the given value `X`.
+- Check if the linked list is empty (`head == null`). If so, return the new node as the head.
+- Initialize a temporary pointer with the head node.
+- Traverse the linked list until reaching the last node (`temp.next == null`).
+- Connect the last node to the newly created node (`temp.next = newNode`).
+- The new node becomes the last node of the linked list.
+- Return the original head.
+
+**Time Complexity:** O(n) – In the worst case, we traverse the entire linked list to reach the last node.
+
+**Space Complexity:** O(1) – Only one new node and a temporary pointer are used.
+
+**Concepts Used:**
+- Singly Linked List
+- Node Insertion
+- Tail Pointer
+- Temporary Pointer
+- Node Linking
+- Reference Manipulation
+- Null Checking
+
+###Solution
+
+class Solution {
+    public ListNode insertAtTail(ListNode head, int X) {
+        ListNode newNode = new ListNode(X);
+        
+        // If the linked list is empty, return the new node as the head
+        if (head == null) {
+            return newNode;
+        }
+        
+        // Traverse to the last node
+        ListNode curr = head;
+        while (curr.next != null) {
+            curr = curr.next;
+        }
+        
+        // Attach the new node at the tail
+        curr.next = newNode;
+        
+        return head;
+    }
+}
