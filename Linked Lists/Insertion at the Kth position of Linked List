@@ -1,0 +1,54 @@
+### Insertion at the Kth Position of a Linked List
+
+**Problem:** Given the head of a singly linked list and two integers `X` and `K`, insert a new node with value `X` at the Kth position of the linked list and return the head of the modified linked list.
+
+**Approach:**
+
+- Create a new node with the given value `X`.
+- If `K == 1`, insert the new node at the beginning by setting `newNode.next = head` and return the new node as the updated head.
+- Otherwise, initialize a temporary pointer with the head node.
+- Traverse the linked list until reaching the `(K-1)th` node.
+- Set the next reference of the new node to the next node of the temporary pointer (`newNode.next = temp.next`).
+- Connect the previous node to the new node (`temp.next = newNode`).
+- The new node is inserted at the Kth position.
+- Return the original head.
+
+**Time Complexity:** O(n) – In the worst case, we traverse the linked list to reach the required position.
+
+**Space Complexity:** O(1) – Only one new node and a temporary pointer are used.
+
+**Concepts Used:**
+- Singly Linked List
+- Kth Position Insertion
+- Node Creation
+- Head Pointer
+- Temporary Pointer
+- Pointer Manipulation
+- Node Linking
+- Reference Handling
+
+
+###Solution
+
+class Solution {
+    public ListNode insertAtKthPosition(ListNode head, int X, int K) {
+        // Case 1: Insert at the beginning (1st position)
+        if (K == 1) {
+            return new ListNode(X, head);
+        }
+        
+        // Traverse to the (K - 1)th node
+        ListNode curr = head;
+        for (int i = 1; i < K - 1 && curr != null; i++) {
+            curr = curr.next;
+        }
+        
+        // Insert the new node after the (K - 1)th node
+        if (curr != null) {
+            ListNode newNode = new ListNode(X, curr.next);
+            curr.next = newNode;
+        }
+        
+        return head;
+    }
+}
