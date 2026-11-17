@@ -1,0 +1,71 @@
+### Insertion Before the Value X in a Linked List
+
+**Problem:** Given the head of a singly linked list and two integers `X` and `val`, insert a new node with value `val` before the node containing value `X` and return the head of the modified linked list.
+
+**Approach:**
+
+- Check if the linked list is empty (`head == null`). If so, return `head`.
+- If the head node contains the value `X`, insert the new node before the head by setting `newNode.next = head` and return the new node as the updated head.
+- Otherwise, create a new node with the given value `val`.
+- Initialize a temporary pointer with the head node.
+- Traverse the linked list until the next node contains the value `X` or the end of the list is reached.
+- If the value `X` is found, connect the new node to the target node (`newNode.next = temp.next`).
+- Update the previous node's next reference to the new node (`temp.next = newNode`).
+- If the value `X` is not present, leave the linked list unchanged.
+- Return the updated head.
+
+**Time Complexity:** O(n) – In the worst case, the entire linked list is traversed to find the node containing value X.
+
+**Space Complexity:** O(1) – Only one new node and a temporary pointer are used.
+
+**Concepts Used:**
+- Singly Linked List
+- Node Insertion
+- Insertion Before a Given Value
+- Head Pointer
+- Temporary Pointer
+- Searching
+- Pointer Manipulation
+- Node Linking
+- Null Checking
+
+###Solution
+
+/*
+Definition of singly Linked List:
+class ListNode{
+    public int data;
+    public ListNode next;
+    ListNode() { data = 0; next = null; }
+    ListNode(int x) { data = x; next = null; }
+    ListNode(int x, ListNode next) { data = x; this.next = next; }
+}
+*/
+
+class Solution {
+    public ListNode insertBeforeX(ListNode head, int X, int val) {
+        // If the list is empty, nothing can be inserted before X
+        if (head == null) {
+            return null;
+        }
+        
+        // If X is at the head, insert the new node at the very beginning
+        if (head.data == X) {
+            return new ListNode(val, head);
+        }
+        
+        // Traverse the list to find the node right before the node with value X
+        ListNode current = head;
+        while (current.next != null) {
+            if (current.next.data == X) {
+                ListNode newNode = new ListNode(val, current.next);
+                current.next = newNode;
+                break; // Stop after inserting before the first occurrence of X
+            }
+            current = current.next;
+        }
+        
+        return head;
+    }
+}
+
