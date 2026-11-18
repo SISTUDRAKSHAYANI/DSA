@@ -1,0 +1,43 @@
+### Find the Length of a Linked List
+
+**Problem:** Given the head of a singly linked list, find and return the total number of nodes present in the linked list.
+
+**Approach:**
+
+- Initialize a counter variable `count = 0`.
+- Create a temporary pointer and initialize it with the head node.
+- Traverse the linked list using a `while` loop until the temporary pointer becomes `null`.
+- For every node visited, increment the counter (`count++`).
+- Move the temporary pointer to the next node using `temp = temp.next`.
+- Continue until all nodes are visited.
+- Return the final count.
+- If the linked list is empty (`head == null`), return `0`.
+
+**Time Complexity:** O(n) – Each node is visited exactly once.
+
+**Space Complexity:** O(1) – Only a counter and a temporary pointer are used.
+
+**Concepts Used:**
+- Singly Linked List
+- Linked List Traversal
+- Head Pointer
+- Temporary Pointer
+- Counting
+- While Loop
+- Null Checking
+
+###Solution
+
+class Solution {
+    public int getLength(ListNode head) {
+        int count = 0;
+        ListNode current = head;
+        
+        while (current != null) {
+            count++;
+            current = current.next;
+        }
+        
+        return count;
+    }
+}
