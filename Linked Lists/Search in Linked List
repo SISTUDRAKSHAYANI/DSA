@@ -1,0 +1,48 @@
+### Search in a Linked List
+
+**Problem:** Given the head of a singly linked list and an integer `key`, check whether the key exists in the linked list. Return `true` if the key is found, otherwise return `false`.
+
+**Approach:**
+
+- Initialize a temporary pointer with the head node.
+- Traverse the linked list using a `while` loop until the temporary pointer becomes `null`.
+- At each node, compare the node's data with the given `key`.
+- If the node's data matches the key, return `true`.
+- Otherwise, move the temporary pointer to the next node using `temp = temp.next`.
+- If the traversal reaches `null` without finding the key, return `false`.
+- If the linked list is empty (`head == null`), return `false`.
+
+**Time Complexity:** O(n) – In the worst case, all nodes are traversed to search for the key.
+
+**Space Complexity:** O(1) – Only a temporary pointer is used.
+
+**Concepts Used:**
+- Singly Linked List
+- Linked List Traversal
+- Searching
+- Head Pointer
+- Temporary Pointer
+- Comparison
+- Boolean Return
+- Null Checking
+
+###Solution
+
+class Solution {
+    public boolean searchKey(ListNode head, int key) {
+        ListNode current = head;
+        
+        // Traverse the linked list until the end
+        while (current != null) {
+            // Check if the current node's value matches the key
+            if (current.val == key) {
+                return true;
+            }
+            // Move to the next node
+            current = current.next;
+        }
+        
+        // Key was not found in the list
+        return false;
+    }
+}
