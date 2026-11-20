@@ -1,0 +1,48 @@
+## 875. Convert Array to Doubly Linked List
+
+Given an array `arr`, convert it into a doubly linked list and return the head of the list. Each node contains data, a `prev` pointer pointing to the previous node, and a `next` pointer pointing to the next node.
+
+### Examples
+
+**Example 1:**
+- Input: `arr = [1, 2, 3, 4]`
+- Output: `[1, 2, 3, 4]`
+
+**Example 2:**
+- Input: `arr = [7, 7]`
+- Output: `[7, 7]`
+
+### Approach
+- Create the head node using the first element of the array.
+- Traverse the array from the second element onwards.
+- Create a new node for each element.
+- Connect the new node's `prev` pointer to the previous node and the previous node's `next` pointer to the new node.
+- Continue until all elements are converted into nodes and return the head.
+
+**Time Complexity:** O(n) – Traversing the array once to create the doubly linked list.
+
+**Space Complexity:** O(n) – Storing all the elements in newly created nodes.
+
+###Solution
+
+class Solution {
+    public ListNode arrayToDoublyLinkedList(List<Integer> arr) {
+        // Handle empty list edge case
+        if (arr == null || arr.isEmpty()) {
+            return null;
+        }
+
+        // Create the head node using the first element
+        ListNode head = new ListNode(arr.get(0));
+        ListNode prevNode = head;
+
+        // Iterate through the remaining elements and link nodes
+        for (int i = 1; i < arr.size(); i++) {
+            ListNode temp = new ListNode(arr.get(i), prevNode, null);
+            prevNode.next = temp;
+            prevNode = temp;
+        }
+
+        return head;
+    }
+}
