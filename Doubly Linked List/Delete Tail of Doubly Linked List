@@ -1,0 +1,51 @@
+## 892. Delete Tail of Doubly Linked List
+
+Given the head of a doubly linked list, remove the last node (tail) of the linked list and return the head of the modified list.
+
+### Examples
+
+**Example 1:**
+- Input: `head = [1, 2, 3]`
+- Output: `head = [1, 2]`
+
+**Explanation:** The node with value `3` is removed from the tail of the doubly linked list.
+
+**Example 2:**
+- Input: `head = [7]`
+- Output: `head = []`
+
+**Explanation:** The only node in the list is removed, resulting in an empty list.
+
+### Approach
+- If the list is empty or contains only one node, return `null`.
+- Traverse the list until the tail node is reached.
+- Update the `next` pointer of the tail's previous node to `null`.
+- Return the head of the modified list.
+
+**Time Complexity:** O(n) – Traversing the list to reach the tail node.
+
+**Space Complexity:** O(1) – No extra space is used.
+
+###Solution
+
+class Solution {
+    public ListNode deleteTail(ListNode head) {
+        // Edge case: If the list is empty or has only one node
+        if (head == null || head.next == null) {
+            return null;
+        }
+
+        // Traverse to the last node (tail)
+        ListNode tail = head;
+        while (tail.next != null) {
+            tail = tail.next;
+        }
+
+        // Unlink the tail node from the previous node
+        ListNode newTail = tail.prev;
+        newTail.next = null;
+        tail.prev = null; // Clean up the reference
+
+        return head;
+    }
+}
