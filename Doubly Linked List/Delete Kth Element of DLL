@@ -1,0 +1,79 @@
+## 888. Delete Kth Element of Doubly Linked List
+
+Given the head of a doubly linked list and an integer `k`, delete the node at the kth position (1-based indexing) and return the head of the modified doubly linked list.
+
+### Examples
+
+**Example 1:**
+- Input: `head = [2, 5, 7, 9], k = 2`
+- Output: `head = [2, 7, 9]`
+
+**Explanation:** The node with value `5` at the 2nd position is removed.
+
+**Example 2:**
+- Input: `head = [2, 5, 7], k = 1`
+- Output: `head = [5, 7]`
+
+**Explanation:** The node with value `2` at the 1st position is removed, and the head is updated to the next node.
+
+### Approach
+- Traverse the doubly linked list to reach the kth node.
+- If the kth node is the head, update the head to the next node.
+- Update the `prev` pointer of the next node and the `next` pointer of the previous node to disconnect the kth node.
+- Handle boundary cases when deleting the head or tail.
+- Return the updated head.
+
+**Time Complexity:** O(n) – Traversing the list to reach the kth node.
+
+**Space Complexity:** O(1) – No extra space is used.
+
+###Solution
+
+class Solution {
+    public ListNode deleteKthElement(ListNode head, int k) {
+        // Edge case: empty list
+        if (head == null) {
+            return null;
+        }
+
+        // Case 1: Deleting the head node (k == 1)
+        if (k == 1) {
+            ListNode newHead = head.next;
+            if (newHead != null) {
+                newHead.prev = null;
+            }
+            head.next = null;
+            return newHead;
+        }
+
+        // Traverse to the kth node
+        ListNode current = head;
+        int count = 1;
+        while (current != null && count < k) {
+            current = current.next;
+            count++;
+        }
+
+        // If k is greater than the length of the list
+        if (current == null) {
+            return head;
+        }
+
+        // Rewire pointers to bypass 'current'
+        ListNode prevNode = current.prev;
+        ListNode nextNode = current.next;
+
+        if (prevNode != null) {
+            prevNode.next = nextNode;
+        }
+        if (nextNode != null) {
+            nextNode.prev = prevNode;
+        }
+
+        // Isolate the deleted node
+        current.prev = null;
+        current.next = null;
+
+        return head;
+    }
+}
