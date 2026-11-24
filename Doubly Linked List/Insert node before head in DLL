@@ -1,0 +1,49 @@
+## 980. Insert Node Before Head in Doubly Linked List
+
+Given the head of a doubly linked list and an integer `X`, insert a new node with value `X` before the current head of the list and return the head of the modified doubly linked list.
+
+### Examples
+
+**Example 1:**
+- Input: `head = [1, 2, 3], X = 3`
+- Output: `head = [3, 1, 2, 3]`
+
+**Explanation:** A new node with value `3` is inserted before the first node. The head is updated to the newly inserted node.
+
+**Example 2:**
+- Input: `head = [5], X = 7`
+- Output: `head = [7, 5]`
+
+**Explanation:** A new node with value `7` is inserted before the existing head node `5`.
+
+### Approach
+- Create a new node with the given value `X`.
+- Set the new node's `next` pointer to the current head.
+- Set the current head's `prev` pointer to the new node, if the head is not null.
+- Set the new node's `prev` pointer to `null`.
+- Return the new node as the updated head.
+
+**Time Complexity:** O(1) – Insertion is performed directly before the head without traversal.
+
+**Space Complexity:** O(1) – Only one new node is created.
+
+###Solution
+
+class Solution {
+    public ListNode insertBeforeHead(ListNode head, int data) {
+        // Create a new node with the given data
+        ListNode newNode = new ListNode(data);
+        
+        // If the list is empty, the new node becomes the head
+        if (head == null) {
+            return newNode;
+        }
+        
+        // Link the new node before the current head
+        newNode.next = head;
+        head.prev = newNode;
+        
+        // Return the new node as the updated head
+        return newNode;
+    }
+}
