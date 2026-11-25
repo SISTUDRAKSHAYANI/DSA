@@ -1,0 +1,63 @@
+## 985. Insert Node Before Tail in Doubly Linked List
+
+Given the head of a doubly linked list and an integer `X`, insert a new node with value `X` before the tail (last node) of the linked list and return the head of the modified list.
+
+### Examples
+
+**Example 1:**
+- Input: `head = [1, 2, 4], X = 3`
+- Output: `head = [1, 2, 3, 4]`
+
+**Explanation:** A new node with value `3` is inserted before the last node `4`.
+
+**Example 2:**
+- Input: `head = [4], X = 6`
+- Output: `head = [6, 4]`
+
+**Explanation:** A new node with value `6` is inserted before the tail node `4`. Since the list contains only one node, the new node becomes the head.
+
+### Approach
+- If the list is empty, create a new node and return it as the head.
+- Traverse the list until the tail node is reached.
+- Create a new node with the given value `X`.
+- Connect the new node between the tail's previous node and the tail.
+- Update the `prev` and `next` pointers of the adjacent nodes accordingly.
+- If the list contains only one node, the new node becomes the head.
+- Return the updated head.
+
+**Time Complexity:** O(n) – Traversing the list to reach the tail node.
+
+**Space Complexity:** O(1) – No extra auxiliary space is used apart from the new node.
+
+###Solution
+
+class Solution {
+    public ListNode insertBeforeTail(ListNode head, int X) {
+        // Case 1: Empty list
+        if (head == null) {
+            return new ListNode(X);
+        }
+
+        // Case 2: Only one node in the list (head is also the tail)
+        if (head.next == null) {
+            ListNode newNode = new ListNode(X, null, head);
+            head.prev = newNode;
+            return newNode; // New node becomes the new head
+        }
+
+        // Case 3: General case (two or more nodes)
+        ListNode tail = head;
+        while (tail.next != null) {
+            tail = tail.next;
+        }
+
+        ListNode prevNode = tail.prev;
+        ListNode newNode = new ListNode(X, prevNode, tail);
+
+        // Re-link adjacent nodes to point to the new node
+        prevNode.next = newNode;
+        tail.prev = newNode;
+
+        return head;
+    }
+}
