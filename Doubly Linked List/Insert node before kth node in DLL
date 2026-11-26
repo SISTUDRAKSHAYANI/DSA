@@ -1,0 +1,62 @@
+## 971. Insert Node Before (Kth Node) in Doubly Linked List
+
+Given the head of a doubly linked list and two integers `X` and `K`, insert a new node with value `X` before the Kth node (1-based indexing) of the linked list and return the head of the modified list.
+
+### Examples
+
+**Example 1:**
+- Input: `head = [1, 3, 5], X = 7, K = 2`
+- Output: `head = [1, 7, 3, 5]`
+
+**Explanation:** A new node with value `7` is inserted before the 2nd node, which contains `3`.
+
+**Example 2:**
+- Input: `head = [5], X = 7, K = 1`
+- Output: `head = [7, 5]`
+
+**Explanation:** A new node with value `7` is inserted before the 1st node. The head is updated to the newly inserted node.
+
+### Approach
+- Create a new node with the given value `X`.
+- Traverse the doubly linked list to reach the Kth node.
+- Connect the new node between the Kth node's previous node and the Kth node.
+- Update the `prev` and `next` pointers of the adjacent nodes accordingly.
+- If `K = 1`, insert the new node before the head and update the head.
+- Return the updated head.
+
+**Time Complexity:** O(n) – Traversing the list to reach the Kth node.
+
+**Space Complexity:** O(1) – No extra auxiliary space is used apart from the new node.
+
+###Solution
+
+class Solution {
+    public ListNode insertBeforeKthPosition(ListNode head, int X, int K) {
+        // Case 1: Insert before the 1st node (new head)
+        if (K == 1) {
+            ListNode newHead = new ListNode(X, null, head);
+            if (head != null) {
+                head.prev = newHead;
+            }
+            return newHead;
+        }
+
+        // Traverse to the Kth node
+        ListNode temp = head;
+        int count = 1;
+        while (temp != null && count < K) {
+            temp = temp.next;
+            count++;
+        }
+
+        // Insert newNode between temp.prev and temp
+        if (temp != null) {
+            ListNode back = temp.prev;
+            ListNode newNode = new ListNode(X, back, temp);
+            back.next = newNode;
+            temp.prev = newNode;
+        }
+
+        return head;
+    }
+}
