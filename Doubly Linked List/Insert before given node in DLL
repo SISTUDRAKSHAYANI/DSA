@@ -1,0 +1,45 @@
+## 927. Insert Before Given Node in Doubly Linked List
+
+Given a reference to a node in a doubly linked list and an integer `X`, insert a new node with value `X` before the given node while maintaining the proper connections between the nodes. The head of the list is not provided, and the given node is guaranteed not to be the head.
+
+### Examples
+
+**Example 1:**
+- Input: `head = [1, 2, 6], node = 6, X = 7`
+- Output: `head = [1, 2, 7, 6]`
+
+**Explanation:** A new node with value `7` is inserted before the node containing `6`. The head is not provided to the function.
+
+**Example 2:**
+- Input: `head = [7, 5, 15], node = 5, X = 10`
+- Output: `head = [7, 10, 5, 15]`
+
+**Explanation:** The referenced node containing `5` is identified, and a new node with value `10` is inserted before it.
+
+### Approach
+- Create a new node with the given value `X`.
+- Use the given node's `prev` pointer to access the previous node.
+- Connect the previous node's `next` pointer to the new node.
+- Set the new node's `prev` pointer to the previous node and its `next` pointer to the given node.
+- Update the given node's `prev` pointer to the new node.
+
+**Time Complexity:** O(1) – Insertion is performed using direct pointer manipulation without traversal.
+
+**Space Complexity:** O(1) – No extra auxiliary space is used apart from the new node.
+
+###Solution
+
+
+class Solution {
+    public void insertBeforeGivenNode(ListNode node, int X) {
+        // 1. Identify the node currently preceding the given node
+        ListNode prevNode = node.prev;
+        
+        // 2. Create the new node with value X, linking prevNode and node directly
+        ListNode newNode = new ListNode(X, prevNode, node);
+        
+        // 3. Update the surrounding nodes' pointers to point to newNode
+        prevNode.next = newNode;
+        node.prev = newNode;
+    }
+}
